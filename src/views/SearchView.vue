@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import '@/assets/main.css'
+import SearchResultBig from '@/components/SearchResultBig.vue'
 import { ref } from 'vue'
 
 const search_query = ref('')
+const items = ref([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16])
 </script>
 
 <template>
@@ -29,6 +31,18 @@ const search_query = ref('')
     <h4 v-else class="search-querier">
       Search Results for: <i>"{{ search_query }}"</i>
     </h4>
+
+    <div class="search-results-list-container" v-if="search_query !== ''">
+      <li v-for="item in items" :key="item">
+        <SearchResultBig
+          :name="search_query + ' ' + item"
+          :address="item + ' ' + search_query + ' ' + 'lane'"
+          :phone_number="'9876543' + item"
+          :website="search_query + item + '.com'"
+          class="search-results"
+        />
+      </li>
+    </div>
   </main>
 </template>
 
@@ -43,9 +57,10 @@ main {
   padding-top: 1em;
   left: 0;
   background-color: #8a3e24;
-  display: grid;
-  grid-auto-rows: max-content;
-  grid-row-gap: 1em;
+  display: flex;
+  flex-direction: column;
+  padding: 1em;
+  overflow: hidden;
 }
 
 .top {
@@ -70,7 +85,7 @@ main {
 .searchbar {
   height: 2em;
   width: auto;
-  margin-top: 0;
+  margin-top: 0.5em;
   margin-left: 2em;
   margin-right: 7em;
   grid-column: 2;
@@ -79,8 +94,35 @@ main {
 .search-querier {
   font-family: 'Oxanium', sans-serif;
   font-weight: 400;
-  justify-self: center;
   color: white;
+  width: 90vw;
+  margin: 0.5em auto;
+  padding: 0.5em 0.5em;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
+}
+
+.btn {
+  padding: 0 1em;
+}
+
+.search-results-list-container {
+  overflow-y: scroll;
+  overflow-x: hidden;
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-row-gap: 0;
+  margin: 0 auto;
+  height: inherit;
+  width: 85vw;
+  scrollbar-width: thin;
+}
+
+.search-results {
+  color: white;
+  font-family: 'Oxanium', sans-serif;
 }
 
 @keyframes fadeIn {
@@ -95,10 +137,17 @@ main {
 }
 
 @media (max-width: 100vh) {
+  .top {
+    grid-template-columns: auto;
+  }
   .searchbar {
-    margin: 0 5vw;
-    width: 90vw;
+    margin: 0 2.5vw;
     grid-column: 1;
+  }
+
+  .search-querier {
+    font-size: larger;
+    text-align: center;
   }
 }
 </style>

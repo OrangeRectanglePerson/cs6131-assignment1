@@ -1,0 +1,64 @@
+<script setup lang="ts">
+import { RouterLink } from 'vue-router'
+
+const props = defineProps({
+  name: String,
+  address: String,
+  phone_number: String,
+  website: String,
+})
+</script>
+
+<template>
+  <div class="search-result-container">
+    <h5 class="name">{{ name }}</h5>
+    <div class="details">
+      <p class="address">{{ address }}</p>
+      <p class="website">{{ website }}</p>
+      <p class="phone_number">{{ phone_number }}</p>
+    </div>
+  </div>
+</template>
+
+<style scoped>
+.search-result-container {
+  display: grid;
+  border: solid;
+  border-width: 0.1em 0;
+  border-image: linear-gradient(to right, transparent 0%, white 10% 90%, transparent 100%) 1;
+  grid-row-gap: 1em;
+  padding: 1em 0;
+}
+
+.name {
+  padding: 0 5%;
+  margin: 0;
+}
+.details {
+  display: grid;
+  grid-auto-flow: column;
+  padding: 0 5%;
+}
+.details > p {
+  margin: 0;
+}
+
+.address {
+  text-align: center;
+}
+.website {
+  text-align: center;
+}
+.phone_number {
+  text-align: center;
+}
+
+@media (max-width: 100vh) {
+  .name {
+    text-align: center;
+  }
+  .details {
+    grid-auto-flow: row;
+  }
+}
+</style>
