@@ -24,7 +24,6 @@ a,
 @media (min-width: 1024px) {
   body {
     display: flex;
-    place-items: center;
   }
 
   #app {
@@ -32,4 +31,10 @@ a,
     grid-template-columns: 1fr 1fr;
     padding: 0 2rem;
   }
+}
+
+.michroma-regular {
+  font-family: 'Michroma', serif;
+  font-weight: 400;
+  font-style: normal;
 }

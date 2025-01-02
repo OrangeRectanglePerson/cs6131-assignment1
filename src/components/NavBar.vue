@@ -3,9 +3,8 @@ import { RouterLink } from 'vue-router'
 </script>
 
 <template>
-  <nav class="navbar fixed-top bg-body-tertiary">
+  <nav class="navbar fixed-top bg-transparent">
     <div class="container-fluid">
-      <a class="navbar-brand" href="#">Navbar</a>
       <button
         class="navbar-toggler"
         type="button"
@@ -77,9 +76,14 @@ import { RouterLink } from 'vue-router'
 
 <style scoped>
 nav {
-  width: 100%;
-  font-size: 12px;
-  text-align: center;
+  position: fixed;
+  font-size: 1rem;
+  max-height: 4em;
+  color: white;
+  right: 0;
+  left: auto;
+  padding-right: 1em;
+  padding-top: 1em;
 }
 
 nav a.router-link-exact-active {
@@ -100,14 +104,7 @@ nav a:first-of-type {
   border: 0;
 }
 
-@media (min-widt: 1024px) {
-  nav {
-    text-align: left;
-    margin-left: -1rem;
-    font-size: 1rem;
-
-    padding: 1rem 0;
-    margin-top: 1rem;
-  }
+.navbar-toggler {
+  background-color: white;
 }
 </style>
