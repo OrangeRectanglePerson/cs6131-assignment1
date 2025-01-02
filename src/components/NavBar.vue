@@ -39,6 +39,9 @@ import { RouterLink } from 'vue-router'
             <li class="nav-item">
               <RouterLink to="/about">About</RouterLink>
             </li>
+            <li class="nav-item">
+              <RouterLink to="/search">Search</RouterLink>
+            </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
