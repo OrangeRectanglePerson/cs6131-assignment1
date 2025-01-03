@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import '@/assets/main.css'
+import { useAccountStore } from '@/stores/account'
+
+const acc_store = useAccountStore()
 </script>
 
 <template>
@@ -9,6 +12,7 @@ import '@/assets/main.css'
       Digital<br />
       Phonebook
     </h1>
+    <p v-if="acc_store.signed_in">Welcome, {{ acc_store.username }}</p>
   </main>
 </template>
 
@@ -19,20 +23,31 @@ import '@/assets/main.css'
   width: 100vw;
   height: 100vh;
   padding-top: 1em;
+  padding-left: 5vw;
   left: 0;
-  background-color: #8a3e24;
+  background-color: var(--color-main-3);
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
 }
 
 .big-brand {
-  position: absolute;
-  padding-left: 5vw;
+  position: relative;
   left: 0;
-  color: white;
+  color: goldenrod;
   font-size: 7vw;
-  animation: fadeIn 2s ease-out;
+  opacity: 0;
+  animation: brandFadeIn 2s ease-out 0s normal forwards !important;
 }
 
-@keyframes fadeIn {
+p {
+  font-size: 1.5em;
+  color: white;
+  opacity: 0;
+  animation: textFadeIn 1s ease-out 2s normal forwards !important;
+}
+
+@keyframes brandFadeIn {
   0% {
     opacity: 0;
     top: 3rem;
@@ -40,6 +55,15 @@ import '@/assets/main.css'
   100% {
     opacity: 1;
     top: 1rem;
+  }
+}
+
+@keyframes textFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 </style>

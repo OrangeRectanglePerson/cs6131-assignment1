@@ -11,7 +11,7 @@ const props = defineProps({
 
 <template>
   <div class="search-result-container">
-    <h5 class="name">{{ name }}</h5>
+    <p class="name">{{ name }}</p>
     <div class="details">
       <p class="address">{{ address }}</p>
       <p class="website">{{ website }}</p>
@@ -33,14 +33,24 @@ const props = defineProps({
 .name {
   padding: 0 5%;
   margin: 0;
+  font-weight: 300;
+  font-size: 1.25em;
+  max-width: 50%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 .details {
   display: grid;
   grid-auto-flow: column;
   padding: 0 5%;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 .details > p {
   margin: 0;
+  font-weight: 300;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .address {

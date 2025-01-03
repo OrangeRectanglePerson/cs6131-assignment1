@@ -1,5 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import '@/assets/base.css'
+import { useAccountStore } from '@/stores/account'
+
+const acc_store = useAccountStore()
 </script>
 
 <template>
@@ -23,7 +27,16 @@ import { RouterLink } from 'vue-router'
         aria-labelledby="offcanvasNavbarLabel"
       >
         <div class="offcanvas-header">
-          <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Offcanvas</h5>
+          <RouterLink
+            v-if="acc_store.signed_in"
+            to="/sign_in"
+            class="account-name"
+            id="offcanvasNavbarLabel"
+            >{{ acc_store.username }}</RouterLink
+          >
+          <RouterLink v-else to="/sign_in" class="account-name" id="offcanvasNavbarLabel"
+            >Sign In</RouterLink
+          >
           <button
             type="button"
             class="btn-close"
@@ -37,10 +50,10 @@ import { RouterLink } from 'vue-router'
               <RouterLink to="/">Home</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/about">About</RouterLink>
+              <RouterLink to="/search">Search</RouterLink>
             </li>
             <li class="nav-item">
-              <RouterLink to="/search">Search</RouterLink>
+              <RouterLink to="/about">About</RouterLink>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -89,25 +102,27 @@ nav {
   padding-top: 1em;
 }
 
-nav a.router-link-exact-active {
-  color: var(--color-text);
-}
-
-nav a.router-link-exact-active:hover {
-  background-color: transparent;
-}
-
-nav a {
-  display: inline-block;
-  padding: 0 1rem;
-  border-left: 1px solid var(--color-border);
-}
-
-nav a:first-of-type {
-  border: 0;
+.btn-close {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16' fill='%23fff'%3e%3cpath d='M.293.293a1 1 0 0 1 1.414 0L8 6.586 14.293.293a1 1 0 1 1 1.414 1.414L9.414 8l6.293 6.293a1 1 0 0 1-1.414 1.414L8 9.414l-6.293 6.293a1 1 0 0 1-1.414-1.414L6.586 8 .293 1.707a1 1 0 0 1 0-1.414z'/%3e%3c/svg%3e");
 }
 
 .navbar-toggler {
   background-color: white;
+}
+
+.account-name {
+  margin-bottom: 0;
+  color: white !important;
+  font-size: 2em;
+}
+
+.offcanvas {
+  background-color: var(--color-contrast-dark);
+  color: white;
+}
+
+.nav-item > a {
+  color: white !important;
+  font-size: 1.5em;
 }
 </style>

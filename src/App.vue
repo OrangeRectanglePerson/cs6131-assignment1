@@ -1,10 +1,23 @@
 <script setup lang="ts">
-import { RouterView } from 'vue-router'
+import { RouterView, useRoute } from 'vue-router'
 import NavBar from './components/NavBar.vue'
+import { computed } from 'vue'
+
+const route = useRoute()
+
+const hideNavBar = computed(() => {
+  const noShowRoutes: string[] = ['sign_in', 'account']
+  for (const r of noShowRoutes) {
+    if (r === route.name) {
+      return true
+    }
+  }
+  return false
+})
 </script>
 
 <template>
-  <NavBar />
+  <NavBar v-if="!hideNavBar" />
 
   <RouterView />
 </template>
