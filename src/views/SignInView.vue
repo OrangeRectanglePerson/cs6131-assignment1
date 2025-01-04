@@ -7,11 +7,19 @@ import { useRouter } from 'vue-router'
 const acc_store = useAccountStore()
 const router = useRouter()
 const username_input = ref('')
+const password_input = ref('')
+const alertText = ref("")
 
 function sign_in(event: { preventDefault: () => void }) {
+  alertText.value = ""
   event.preventDefault()
-  acc_store.sign_in(username_input.value)
-  router.push({ name: 'home' })
+  if(username_input.value === ''){
+    alertText.value = "Username field was left blank."
+  }
+  else{
+    acc_store.sign_in(username_input.value)
+    router.push({ name: 'home' })
+  }
 }
 </script>
 
@@ -23,14 +31,25 @@ function sign_in(event: { preventDefault: () => void }) {
       Phonebook
     </h1>
     <form role="form" v-on:submit="sign_in">
-      <label for="username">Username:</label><br />
+      <label for="username">Username:</label>
       <input
-        class="username_field"
         id="username"
         type="text"
         placeholder="Username"
         v-model="username_input"
-      /><br />
+      />
+      <label for="password">Password:</label>
+      <input
+        id="password"
+        type="password"
+        placeholder=""
+        v-model="password_input"
+      />
+      <p  v-if="alertText!==''">
+        {{alertText}}
+      </p>
+      <div v-else class="p">
+      </div>
       <button class="btn" type="submit">Sign In</button>
     </form>
   </main>
@@ -64,13 +83,17 @@ main {
 }
 
 form {
-  gap: 0.5em;
+  gap: 1em;
   display: flex;
   flex-direction: column;
   width: 20em;
   max-width: 90vw;
   align-self: center;
-  margin: auto;
+  margin: 5em auto;
+}
+form > label{
+  color: white;
+  line-height: 1;
 }
 
 .btn {
@@ -84,6 +107,44 @@ form {
 .btn:hover {
   filter: brightness(85%);
   transition: 0.3s;
+}
+
+p{
+  align-self: center;
+  color: white;
+  line-height: 1.6;
+  padding: 0 1em;
+  margin: 0;
+  background-color: var(--color-contrast-dark);
+  animation:
+    alertLoop .5s ease-in-out 0s 1 forwards,
+    alertAppear .5s ease-out 0s 1 forwards;
+}
+.p{
+  height: 1.6em;
+}
+
+@keyframes alertAppear {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+@keyframes alertLoop {
+  0% {
+    background-color: var(--color-contrast-dark);
+    color: white;
+  }
+  50% {
+    background-color: var(--color-contrast-light);
+    color: black;
+  }
+  100% {
+    background-color: var(--color-contrast-dark);
+    color: white;
+  }
 }
 
 @keyframes brandFadeIn {

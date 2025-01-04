@@ -10,5 +10,9 @@ export const useAccountStore = defineStore('account', {
       this.username = _username
       this.signed_in = true
     },
+    sign_out() {
+      this.signed_in = false
+      console.log("AAAAAAa")
+    },
   },
 })

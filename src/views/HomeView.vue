@@ -37,14 +37,14 @@ const acc_store = useAccountStore()
   color: goldenrod;
   font-size: 7vw;
   opacity: 0;
-  animation: brandFadeIn 2s ease-out 0s normal forwards !important;
+  animation: brandFadeIn 1.5s ease-out 0s normal forwards !important;
 }
 
 p {
   font-size: 1.5em;
   color: white;
   opacity: 0;
-  animation: textFadeIn 1s ease-out 2s normal forwards !important;
+  animation: textFadeIn 1s ease-out 1.5s normal forwards !important;
 }
 
 @keyframes brandFadeIn {

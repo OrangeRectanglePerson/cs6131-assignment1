@@ -1,10 +1,13 @@
 <script setup lang="ts">
 import '@/assets/base.css'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 </script>
 
 <template>
   <div class="about">
-    <p class="michroma-regular brand">
+    <p class="michroma-regular brand" v-on:click="router.push({ name: 'home' })" type="button">
       The<br />
       Digital<br />
       Phonebook

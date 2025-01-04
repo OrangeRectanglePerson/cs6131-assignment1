@@ -2,7 +2,9 @@
 import '@/assets/main.css'
 import SearchResultBig from '@/components/SearchResultBig.vue'
 import { ref, useTemplateRef } from 'vue'
+import { useRouter } from 'vue-router'
 
+const router = useRouter()
 const search_query = ref('')
 const items = ref([1, 2, 3, 4, 5])
 const results_scroll_perc = ref(1)
@@ -34,7 +36,7 @@ function DEMO_PURPOSES() {
 <template>
   <main>
     <div class="top">
-      <h1 class="michroma-regular brand">
+      <h1 class="michroma-regular brand" v-on:click="router.push({ name: 'home' })" type="button">
         The<br />
         Digital<br />
         Phonebook
@@ -52,32 +54,46 @@ function DEMO_PURPOSES() {
         <button class="btn" type="submit">Search</button>
       </form>
     </div>
-    <p v-if="search_query === ''" class="search-querier">Type something to search!</p>
-    <p v-else class="search-querier">
-      Search Results for: <i>"{{ search_query }}"</i>
-    </p>
 
-    <div
-      class="search-results-list-container"
-      v-if="search_query !== ''"
-      v-on:scroll="update_results_scroll_perc"
-      ref="search_results_list_container"
-    >
-      <li v-for="item in items" :key="item">
-        <SearchResultBig
-          :name="search_query + ' ' + item"
-          :address="item + ' ' + search_query + ' ' + 'lane'"
-          :phone_number="'9876543' + item"
-          :website="search_query + item + '.com'"
-          class="search-results"
-        />
-      </li>
+    <div class="search-querier-wrapper">
+      <Transition>
+        <p v-if="search_query === ''" class="search-querier">Type something to search!</p>
+        <p v-else class="search-querier">
+          Search Results for: <i>"{{ search_query }}"</i>
+        </p>
+      </Transition>
     </div>
+    <Transition>
+      <div
+        class="search-results-list-container"
+        v-if="search_query !== ''"
+        v-on:scroll="update_results_scroll_perc"
+        ref="search_results_list_container"
+      >
+        <li v-for="item in items" :key="item">
+          <SearchResultBig
+            :name="search_query + ' ' + item"
+            :address="item + ' ' + search_query + ' ' + 'lane'"
+            :phone_number="'9876543' + item"
+            :website="search_query + item + '.com'"
+            class="search-results"
+          />
+        </li>
+      </div>
+    </Transition>
   </main>
 </template>
 
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
+
+.v-enter-active{
+  transition: opacity 0.3s ease;
+}
+
+.v-enter-from{
+  opacity: 0;
+}
 
 main {
   top: 0;
@@ -98,6 +114,8 @@ main {
   grid-template-columns: min-content;
   height: fit-content;
   grid-row-gap: 1em;
+
+  animation: contentFadeIn 1s ease-out 0s normal forwards;
 }
 
 .brand {
@@ -107,9 +125,8 @@ main {
   width: fit-content;
   color: goldenrod;
   font-size: 1em;
-  opacity: 0;
-  animation: brandFadeIn 1s ease-out 0s normal forwards !important;
   height: fit-content;
+  animation: brandFadeIn 1s ease-out 0s normal forwards;
 }
 
 .searchbar {
@@ -133,13 +150,16 @@ main {
   transition: 0.3s;
 }
 
+.search-querier-wrapper{
+  animation: contentFadeIn 1s ease-out 0s normal forwards;
+}
 .search-querier {
   font-family: 'Jura', sans-serif;
   font-weight: 300;
   font-size: 1.5em;
   color: white;
   max-width: 90vw;
-  margin: 1em auto;
+  margin: .1em auto 1em auto;
   white-space: nowrap;
   text-align: center;
   overflow: hidden;
@@ -158,7 +178,6 @@ main {
   scrollbar-width: thin;
   font-size: 1.1em;
   padding: 0.5em 0;
-
   border-top: 0.1em solid white;
   border-bottom: 0.1em solid white;
 }
@@ -173,12 +192,19 @@ main {
 
 @keyframes brandFadeIn {
   0% {
-    opacity: 0;
     top: 0.5em;
   }
   100% {
-    opacity: 1;
     top: 0em;
+  }
+}
+
+@keyframes contentFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 

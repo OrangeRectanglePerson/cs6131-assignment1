@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { RouterLink } from 'vue-router'
+import { RouterLink , useRoute } from 'vue-router'
 import '@/assets/base.css'
 import { useAccountStore } from '@/stores/account'
 
 const acc_store = useAccountStore()
+const route = useRoute()
+
+function sign_out() {
+  acc_store.sign_out()
+}
 </script>
 
 <template>
@@ -27,33 +32,46 @@ const acc_store = useAccountStore()
         aria-labelledby="offcanvasNavbarLabel"
       >
         <div class="offcanvas-header">
-          <RouterLink
-            v-if="acc_store.signed_in"
-            to="/sign_in"
-            class="account-name"
-            id="offcanvasNavbarLabel"
-            >{{ acc_store.username }}</RouterLink
-          >
-          <RouterLink v-else to="/sign_in" class="account-name" id="offcanvasNavbarLabel"
-            >Sign In</RouterLink
-          >
-          <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas"
-            aria-label="Close"
-          ></button>
+          <div class="firstline">
+            <Transition name="firstline" mode="out-in">
+              <RouterLink
+                v-if="acc_store.signed_in"
+                to="/account"
+                class="account-name"
+                id="offcanvasNavbarLabel"
+                >{{ acc_store.username }}</RouterLink
+              >
+              <RouterLink v-else to="/sign_in" class="account-name" id="offcanvasNavbarLabel"
+                >Sign In</RouterLink
+              >
+            </Transition>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="offcanvas"
+              aria-label="Close"
+            ></button>
+          </div>
+          <p
+          type="button"
+          v-show="acc_store.signed_in"
+          class="sign-out"
+          v-on:click="sign_out"
+          >Sign Out</p>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
               <RouterLink to="/">Home</RouterLink>
+              <p v-show="route.name==='home'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/search">Search</RouterLink>
+              <p v-show="route.name==='search'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/about">About</RouterLink>
+              <p v-show="route.name==='about'">you are here</p>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -91,6 +109,15 @@ const acc_store = useAccountStore()
 </template>
 
 <style scoped>
+.firstline-enter-active,
+.firstline-leave-active {
+  transition: opacity .3s ease;
+}
+.firstline-enter-from,
+.firstline-leave-to {
+  opacity: 0;
+}
+
 nav {
   position: fixed;
   font-size: 1rem;
@@ -100,6 +127,19 @@ nav {
   left: auto;
   padding-right: 1em;
   padding-top: 1em;
+}
+
+.offcanvas-header{
+  flex-direction: column;
+  align-items: baseline;
+  padding: 1em;
+}
+
+.firstline{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 .btn-close {
@@ -114,6 +154,17 @@ nav {
   margin-bottom: 0;
   color: white !important;
   font-size: 2em;
+  line-height: 1.2;
+}
+.sign-out{
+  font-size: 1em;
+  padding: 0 .25em;
+  line-height: 1,5;
+  margin: 0;
+}
+.sign-out:hover{
+  background-color: var(--color-main-2);
+  transition: background-color 200ms;
 }
 
 .offcanvas {
@@ -121,8 +172,17 @@ nav {
   color: white;
 }
 
+.nav-item{
+  display: flex;
+  align-items: center;
+  gap: .5em;
+}
 .nav-item > a {
   color: white !important;
-  font-size: 1.5em;
+  font-size: 1.2em;
+}
+.nav-item > p{
+  font-size: .8em;
+  margin: 0;
 }
 </style>
