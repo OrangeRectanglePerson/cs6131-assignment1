@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink , useRoute } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import '@/assets/base.css'
 import { useAccountStore } from '@/stores/account'
 
@@ -52,26 +52,23 @@ function sign_out() {
               aria-label="Close"
             ></button>
           </div>
-          <p
-          type="button"
-          v-show="acc_store.signed_in"
-          class="sign-out"
-          v-on:click="sign_out"
-          >Sign Out</p>
+          <p type="button" v-show="acc_store.signed_in" class="sign-out" v-on:click="sign_out">
+            Sign Out
+          </p>
         </div>
         <div class="offcanvas-body">
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
               <RouterLink to="/">Home</RouterLink>
-              <p v-show="route.name==='home'">you are here</p>
+              <p v-show="route.name === 'home'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/search">Search</RouterLink>
-              <p v-show="route.name==='search'">you are here</p>
+              <p v-show="route.name === 'search'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/about">About</RouterLink>
-              <p v-show="route.name==='about'">you are here</p>
+              <p v-show="route.name === 'about'">you are here</p>
             </li>
             <li class="nav-item dropdown">
               <a
@@ -111,7 +108,7 @@ function sign_out() {
 <style scoped>
 .firstline-enter-active,
 .firstline-leave-active {
-  transition: opacity .3s ease;
+  transition: opacity 0.3s ease;
 }
 .firstline-enter-from,
 .firstline-leave-to {
@@ -129,13 +126,13 @@ nav {
   padding-top: 1em;
 }
 
-.offcanvas-header{
+.offcanvas-header {
   flex-direction: column;
   align-items: baseline;
   padding: 1em;
 }
 
-.firstline{
+.firstline {
   width: 100%;
   display: flex;
   flex-direction: row;
@@ -156,33 +153,33 @@ nav {
   font-size: 2em;
   line-height: 1.2;
 }
-.sign-out{
+.sign-out {
   font-size: 1em;
-  padding: 0 .25em;
-  line-height: 1,5;
+  padding: 0 0.25em;
+  line-height: 1, 5;
   margin: 0;
 }
-.sign-out:hover{
-  background-color: var(--color-main-2);
+.sign-out:hover {
+  background-color: rgb(var(--color-main-2));
   transition: background-color 200ms;
 }
 
 .offcanvas {
-  background-color: var(--color-contrast-dark);
+  background-color: rgb(var(--color-contrast-dark));
   color: white;
 }
 
-.nav-item{
+.nav-item {
   display: flex;
   align-items: center;
-  gap: .5em;
+  gap: 0.5em;
 }
 .nav-item > a {
   color: white !important;
   font-size: 1.2em;
 }
-.nav-item > p{
-  font-size: .8em;
+.nav-item > p {
+  font-size: 0.8em;
   margin: 0;
 }
 </style>

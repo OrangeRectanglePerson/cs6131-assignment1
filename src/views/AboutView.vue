@@ -42,8 +42,8 @@ const router = useRouter()
   position: absolute;
   width: 100vw;
   height: 100vh;
-  background-color: var(--color-main-3);
-  color: var(--color-contrast-light);
+  background-color: rgb(var(--color-main-3));
+  color: rgb(var(--color-contrast-light));
   padding: 1em;
   display: flex;
   flex-direction: column;

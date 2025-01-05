@@ -87,11 +87,11 @@ function DEMO_PURPOSES() {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap');
 
-.v-enter-active{
+.v-enter-active {
   transition: opacity 0.3s ease;
 }
 
-.v-enter-from{
+.v-enter-from {
   opacity: 0;
 }
 
@@ -102,7 +102,7 @@ main {
   height: 100vh;
   padding: 1em;
   left: 0;
-  background-color: var(--color-main-3);
+  background-color: rgb(var(--color-main-3));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -143,14 +143,14 @@ main {
   transition: 0.3s;
   padding: 0 1em;
   color: black !important;
-  background-color: var(--color-contrast-light) !important;
+  background-color: rgb(var(--color-contrast-light)) !important;
 }
 .btn:hover {
   filter: brightness(85%);
   transition: 0.3s;
 }
 
-.search-querier-wrapper{
+.search-querier-wrapper {
   animation: contentFadeIn 1s ease-out 0s normal forwards;
 }
 .search-querier {
@@ -159,7 +159,7 @@ main {
   font-size: 1.5em;
   color: white;
   max-width: 90vw;
-  margin: .1em auto 1em auto;
+  margin: 0.1em auto 1em auto;
   white-space: nowrap;
   text-align: center;
   overflow: hidden;

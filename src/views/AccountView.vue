@@ -2,65 +2,137 @@
 import '@/assets/main.css'
 import { useAccountStore } from '@/stores/account'
 import { useRouter } from 'vue-router'
+import AccountCard from '@/components/AccountCard.vue'
 
 const acc_store = useAccountStore()
 const router = useRouter()
 </script>
 
 <template>
-  <main class="landing-screen">
+  <main class="account-screen">
     <h1 class="michroma-regular big-brand" v-on:click="router.push({ name: 'home' })" type="button">
       The<br />
       Digital<br />
       Phonebook
     </h1>
-    <p v-if="acc_store.signed_in">Welcome, {{ acc_store.username }}</p>
+    <p v-if="acc_store.signed_in" class="welcome">Welcome, {{ acc_store.username }}</p>
+    <div class="account-cards" v-if="acc_store.signed_in">
+      <AccountCard
+        title="Change Password"
+        to="/home"
+        description="Change account passsword"
+        footnote=""
+        class="AccountCard"
+      />
+      <AccountCard
+        title="Edit Entries"
+        to="/home"
+        description="Edit database entries"
+        footnote="Admin Command"
+        class="AccountCard"
+      />
+      <AccountCard
+        title="Edit Account Permissions"
+        to="/home"
+        description="Edit the permissions given to users of the website"
+        footnote="Moderator Command"
+        class="AccountCard"
+      />
+      <AccountCard
+        title="Server Maintenance"
+        to="/home"
+        description="View server statistics and perform basic automated tasks"
+        footnote="Server Admin Command"
+        class="AccountCard"
+      />
+      <AccountCard
+        title="Launch the Nukes"
+        to="/home"
+        description="You know you wanna do it"
+        footnote="Presidential Command"
+        class="AccountCard"
+      />
+    </div>
+
+    <RouterLink v-else class="sign-in-reminder" to="/sign_in">Please Sign In First</RouterLink>
   </main>
 </template>
 
 <style scoped>
-.landing-screen {
+.account-screen {
   top: 0;
   position: absolute;
   width: 100vw;
   height: 100vh;
-  padding-top: 1em;
-  padding-left: 5vw;
+  padding: 2em 5vw;
   left: 0;
-  background-color: var(--color-contrast-dark);
+  background-color: rgb(var(--color-contrast-dark));
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 1.5em;
+  overflow: auto;
 }
 
 .big-brand {
   position: relative;
   left: 0;
   color: goldenrod;
-  font-size: 3em;
+  font-size: 2em;
+  margin: 0;
   opacity: 0;
-  animation: brandFadeIn 1.5s ease-out 0s normal forwards !important;
+  animation: brandFadeIn 1s ease-out 0s normal forwards !important;
 }
 
-p {
-  font-size: 5em;
-  color: white;
+.welcome {
+  font-size: 3em;
+  margin: 0;
   opacity: 0;
-  animation: textFadeIn 1s ease-out 1.5s normal forwards !important;
+  animation: textFadeIn 1s ease-out 1s normal forwards !important;
+}
+
+.account-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  width: 100%;
+}
+
+.AccountCard {
+  width: 20em;
+  max-width: 100%;
+  opacity: 0;
+  animation: cardsFadeIn 1s ease-out 2s normal forwards !important;
+}
+
+.sign-in-reminder {
+  font-size: 2em;
+  opacity: 0;
+  color: white;
+  width: fit-content;
+  animation: textFadeIn 1s ease-out 1s normal forwards !important;
 }
 
 @keyframes brandFadeIn {
   0% {
     opacity: 0;
-    top: 3rem;
+    top: 2rem;
   }
   100% {
     opacity: 1;
-    top: 1rem;
+    top: 0rem;
   }
 }
 
 @keyframes textFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes cardsFadeIn {
   0% {
     opacity: 0;
   }

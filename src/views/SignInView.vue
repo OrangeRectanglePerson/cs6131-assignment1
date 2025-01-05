@@ -8,15 +8,14 @@ const acc_store = useAccountStore()
 const router = useRouter()
 const username_input = ref('')
 const password_input = ref('')
-const alertText = ref("")
+const alertText = ref('')
 
 function sign_in(event: { preventDefault: () => void }) {
-  alertText.value = ""
+  alertText.value = ''
   event.preventDefault()
-  if(username_input.value === ''){
-    alertText.value = "Username field was left blank."
-  }
-  else{
+  if (username_input.value === '') {
+    alertText.value = 'Username field was left blank.'
+  } else {
     acc_store.sign_in(username_input.value)
     router.push({ name: 'home' })
   }
@@ -32,24 +31,13 @@ function sign_in(event: { preventDefault: () => void }) {
     </h1>
     <form role="form" v-on:submit="sign_in">
       <label for="username">Username:</label>
-      <input
-        id="username"
-        type="text"
-        placeholder="Username"
-        v-model="username_input"
-      />
+      <input id="username" type="text" placeholder="Username" v-model="username_input" />
       <label for="password">Password:</label>
-      <input
-        id="password"
-        type="password"
-        placeholder=""
-        v-model="password_input"
-      />
-      <p  v-if="alertText!==''">
-        {{alertText}}
+      <input id="password" type="password" placeholder="" v-model="password_input" />
+      <p v-if="alertText !== ''">
+        {{ alertText }}
       </p>
-      <div v-else class="p">
-      </div>
+      <div v-else class="p"></div>
       <button class="btn" type="submit">Sign In</button>
     </form>
   </main>
@@ -63,7 +51,7 @@ main {
   height: 100vh;
   padding: 1em;
   left: 0;
-  background-color: var(--color-main-3);
+  background-color: rgb(var(--color-main-3));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -91,7 +79,7 @@ form {
   align-self: center;
   margin: 5em auto;
 }
-form > label{
+form > label {
   color: white;
   line-height: 1;
 }
@@ -100,7 +88,7 @@ form > label{
   transition: 0.3s;
   padding: 0 1em;
   color: black !important;
-  background-color: var(--color-contrast-light) !important;
+  background-color: rgb(var(--color-contrast-light)) !important;
   width: fit-content;
   align-self: center;
 }
@@ -109,18 +97,18 @@ form > label{
   transition: 0.3s;
 }
 
-p{
+p {
   align-self: center;
   color: white;
   line-height: 1.6;
   padding: 0 1em;
   margin: 0;
-  background-color: var(--color-contrast-dark);
+  background-color: rgb(var(--color-contrast-dark));
   animation:
-    alertLoop .5s ease-in-out 0s 1 forwards,
-    alertAppear .5s ease-out 0s 1 forwards;
+    alertLoop 0.5s ease-in-out 0s 1 forwards,
+    alertAppear 0.5s ease-out 0s 1 forwards;
 }
-.p{
+.p {
   height: 1.6em;
 }
 
@@ -134,15 +122,15 @@ p{
 }
 @keyframes alertLoop {
   0% {
-    background-color: var(--color-contrast-dark);
+    background-color: rgb(var(--color-contrast-dark));
     color: white;
   }
   50% {
-    background-color: var(--color-contrast-light);
+    background-color: rgb(var(--color-contrast-light));
     color: black;
   }
   100% {
-    background-color: var(--color-contrast-dark);
+    background-color: rgb(var(--color-contrast-dark));
     color: white;
   }
 }
