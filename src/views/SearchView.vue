@@ -1,14 +1,21 @@
 <script setup lang="ts">
 import '@/assets/main.css'
 import SearchResultBig from '@/components/SearchResultBig.vue'
-import { ref, useTemplateRef } from 'vue'
-import { useRouter } from 'vue-router'
+import { onMounted, ref, useTemplateRef } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
-const search_query = ref('')
+const route = useRoute()
+const search_query = ref(
+  typeof route.query.search_query === 'undefined' ? '' : (route.query.search_query as string),
+)
 const items = ref([1, 2, 3, 4, 5])
 const results_scroll_perc = ref(1)
 const search_results_list_container = useTemplateRef('search_results_list_container')
+
+onMounted(() => {
+  new_search()
+})
 
 function update_results_scroll_perc() {
   results_scroll_perc.value =
@@ -18,18 +25,24 @@ function update_results_scroll_perc() {
         search_results_list_container.value!.offsetHeight)
 }
 
-function new_search() {
-  DEMO_PURPOSES()
-
-  search_results_list_container.value!.scrollTop = 0
-  results_scroll_perc.value = 1
+function search_btn(event: { preventDefault: () => void }) {
+  event.preventDefault()
+  router.push({ name: 'search', query: { search_query: search_query.value } })
+  new_search()
 }
 
-function DEMO_PURPOSES() {
+function new_search() {
+  if (search_query.value === '') return
+
+  //placeholder search for now
   items.value = []
   for (let i = 0; i < 3 + Math.floor(Math.random() * 18); i++) {
     items.value = items.value.concat([i])
   }
+  //end placeholder
+
+  search_results_list_container.value!.scrollTop = 0
+  results_scroll_perc.value = 1
 }
 </script>
 
@@ -42,7 +55,7 @@ function DEMO_PURPOSES() {
         Phonebook
       </h1>
 
-      <form class="d-flex searchbar" role="search">
+      <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
         <input
           class="form-control me-2"
           type="search"

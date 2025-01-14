@@ -19,35 +19,36 @@ const router = useRouter()
     <div class="account-cards" v-if="acc_store.signed_in">
       <AccountCard
         title="Change Password"
-        to="/home"
+        to="/"
         description="Change account passsword"
         footnote=""
         class="AccountCard"
       />
       <AccountCard
         title="Edit Entries"
-        to="/home"
+        to="/"
         description="Edit database entries"
         footnote="Admin Command"
         class="AccountCard"
       />
       <AccountCard
         title="Edit Account Permissions"
-        to="/home"
+        to="/"
         description="Edit the permissions given to users of the website"
         footnote="Moderator Command"
         class="AccountCard"
       />
       <AccountCard
         title="Server Maintenance"
-        to="/home"
+        to="/"
         description="View server statistics and perform basic automated tasks"
         footnote="Server Admin Command"
         class="AccountCard"
       />
       <AccountCard
+        image="/Radiation_warning_symbol.svg"
         title="Launch the Nukes"
-        to="/home"
+        to="/"
         description="You know you wanna do it"
         footnote="Presidential Command"
         class="AccountCard"

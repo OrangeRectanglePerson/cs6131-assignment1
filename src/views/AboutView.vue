@@ -31,6 +31,12 @@ const router = useRouter()
       <li>Vernon Adams for designing the font "Michroma"</li>
       <li>Daniel Johnson and Cyreal for designing the font "Jura"</li>
       <li>Evan You and the Core Team for developing "Vue.js"</li>
+      <li>
+        <a href="https://commons.wikimedia.org/wiki/User:Manjiro5">Manjiro5</a>,
+        <a href="https://commons.wikimedia.org/wiki/File:Square_book_icon.svg">Square book icon</a>,
+        colors by Lim Devon,
+        <a href="https://creativecommons.org/licenses/by/4.0/legalcode" rel="license">CC BY 4.0</a>
+      </li>
     </ul>
   </div>
 </template>
@@ -82,6 +88,9 @@ ul {
   font-size: 1em;
   opacity: 0;
   animation: textFadeIn 1s ease-out 1s normal forwards;
+}
+a {
+  color: rgb(var(--color-contrast-light));
 }
 
 @keyframes brandFadeIn {

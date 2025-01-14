@@ -1,13 +1,21 @@
 <script setup lang="ts">
-import { RouterLink, useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { RouterLink, useRoute, useRouter } from 'vue-router'
 import '@/assets/base.css'
 import { useAccountStore } from '@/stores/account'
 
 const acc_store = useAccountStore()
+
+const router = useRouter()
 const route = useRoute()
+const search_query = ref('')
 
 function sign_out() {
   acc_store.sign_out()
+}
+function search(event: { preventDefault: () => void }) {
+  event.preventDefault()
+  router.push({ name: 'search', query: { search_query: search_query.value } })
 }
 </script>
 
@@ -90,12 +98,13 @@ function sign_out() {
               </ul>
             </li>
           </ul>
-          <form class="d-flex mt-3" role="search">
+          <form class="d-flex mt-3" role="search" v-on:submit="search">
             <input
               class="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              v-model="search_query"
             />
             <button class="btn btn-outline-success" type="submit">Search</button>
           </form>
@@ -151,17 +160,18 @@ nav {
   margin-bottom: 0;
   color: white !important;
   font-size: 2em;
-  line-height: 1.2;
+  line-height: 1.5;
 }
 .sign-out {
   font-size: 1em;
   padding: 0 0.25em;
-  line-height: 1, 5;
+  line-height: 1.5;
   margin: 0;
+  border-radius: 0.2em;
 }
 .sign-out:hover {
   background-color: rgb(var(--color-main-2));
-  transition: background-color 200ms;
+  transition: background-color 300ms;
 }
 
 .offcanvas {
@@ -181,5 +191,16 @@ nav {
 .nav-item > p {
   font-size: 0.8em;
   margin: 0;
+}
+
+.nav-item > a,
+.account-name {
+  border-radius: 0.2em;
+  transition: all 0.3s;
+  text-underline-offset: 0.1em;
+}
+.nav-item > a:hover,
+.account-name:hover {
+  text-underline-offset: 0.25em;
 }
 </style>
