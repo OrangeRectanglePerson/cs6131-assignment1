@@ -55,7 +55,10 @@ function new_search() {
         Phonebook
       </h1>
 
-      <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
+
+    </div>
+
+    <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
         <input
           class="form-control me-2"
           type="search"
@@ -66,7 +69,6 @@ function new_search() {
         />
         <button class="btn" type="submit">Search</button>
       </form>
-    </div>
 
     <div class="search-querier-wrapper">
       <Transition>
@@ -143,13 +145,11 @@ main {
 }
 
 .searchbar {
-  height: 2em;
-  width: auto;
-  margin-top: 0.5em;
-  margin-left: 2em;
-  margin-right: 7em;
-  grid-column: 2;
-  font-weight: 400;
+	height: 2em;
+	margin: 1em auto;
+	font-weight: 400;
+	width: 50em;
+	max-width: 90vw;
 }
 
 .btn {
@@ -224,10 +224,6 @@ main {
 @media (max-width: 100vh) {
   .top {
     grid-template-columns: auto;
-  }
-  .searchbar {
-    margin: 0 2.5vw;
-    grid-column: 1;
   }
 
   .search-querier {

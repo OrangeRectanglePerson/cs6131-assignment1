@@ -22,7 +22,7 @@ defineProps({
 .search-result-container {
   display: grid;
   border: solid;
-  border-width: 0.1em 0;
+  border-width: 1px 0;
   border-image: linear-gradient(to right, transparent 0%, white 10% 90%, transparent 100%) 1;
   grid-row-gap: 1em;
   padding: 1em 0;
