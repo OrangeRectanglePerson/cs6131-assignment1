@@ -13,7 +13,7 @@ const router = useRouter()
       Phonebook
     </p>
     <h1>About the website</h1>
-    <h2>Made by Devon</h2>
+    <h2>Made by Lim Devon</h2>
     <p>
       Web design encompasses many different skills and disciplines in the production and maintenance
       of websites. The different areas of web design include web graphic design; user interface
@@ -29,6 +29,11 @@ const router = useRouter()
     <h2>Thanks to:</h2>
     <ul>
       <li>
+        The many dedicated contributors to Vite, Vue, Pinia, Prettier, ESLint, Node.JS, Bootstrap,
+        TypeScript, and the innumerable other dependancies this product could not have been made
+        possible without.
+      </li>
+      <li>
         <a href="https://github.com/googlefonts/Michroma-font"> The Michroma Project Authors </a>
         for designing the font "Michroma" (under the
         <a href="https://openfontlicense.org/open-font-license-official-text/">
@@ -42,11 +47,9 @@ const router = useRouter()
           SIL Open Font License, Version 1.1 </a
         >)
       </li>
-      <li>Evan You and the Core Team for developing "Vue.js"</li>
       <li>
         <a href="https://commons.wikimedia.org/wiki/User:Manjiro5">Manjiro5</a>,
         <a href="https://commons.wikimedia.org/wiki/File:Square_book_icon.svg">Square book icon</a>,
-        colors by Lim Devon,
         <a href="https://creativecommons.org/licenses/by/4.0/legalcode" rel="license">CC BY 4.0</a>
       </li>
       <li>
