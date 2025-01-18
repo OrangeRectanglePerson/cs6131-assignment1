@@ -36,8 +36,8 @@ const router = useRouter()
         >)
       </li>
       <li>
-        <a href="https://github.com/sevmeyer/oxanium"> The Oxanium Project Authors </a> for
-        designing the font "Oxanium" (under the
+        <a href="https://github.com/Omnibus-Type/Saira"> The Saira Project Authors </a> for
+        designing the font "Saira" (under the
         <a href="https://openfontlicense.org/open-font-license-official-text/">
           SIL Open Font License, Version 1.1 </a
         >)
@@ -77,6 +77,16 @@ const router = useRouter()
         <a href="https://github.com/coreui/coreui-icons/blob/v2/LICENSE" rel="license"
           >CoreUI Icons Free License</a
         >
+      </li>
+      <li>
+        <a href="https://fontawesome.com">Font Awesome</a>,
+        <a href="https://commons.wikimedia.org/wiki/File:User-pen-solid.svg">User-pen-solid</a>,
+        <a href="https://creativecommons.org/licenses/by/4.0/deed.en" rel="license">CC BY 4.0</a>
+      </li>
+      <li>
+        <a href="https://fontawesome.com">Font Awesome</a>,
+        <a href="https://commons.wikimedia.org/wiki/File:Pen-solid.svg">Pen-solid</a>,
+        <a href="https://creativecommons.org/licenses/by/4.0/deed.en" rel="license">CC BY 4.0</a>
       </li>
       <li>Wikipedia for the paragraphs used as placeholder text</li>
     </ul>
