@@ -30,7 +30,7 @@ const router = useRouter()
     <ul>
       <li>
         The many dedicated contributors to Vite, Vue, Pinia, Prettier, ESLint, Node.JS, Bootstrap,
-        TypeScript, and the innumerable other dependancies this product could not have been made
+        TypeScript, and the innumerable other dependancies this project could not have been made
         possible without.
       </li>
       <li>
