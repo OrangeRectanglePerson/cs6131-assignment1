@@ -37,6 +37,21 @@ const router = createRouter({
       name: 'account',
       component: () => import('@/views/AccountView.vue'),
     },
+    {
+      path: '/favourites',
+      name: 'favourites',
+      component: () => import('@/views/FavouritesView.vue'),
+    },
+    {
+      path: '/business_editor_search',
+      name: 'business_editor_search',
+      component: () => import('@/views/EditBusinessSearchView.vue'),
+    },
+    {
+      path: '/business_editor',
+      name: 'business_editor',
+      component: () => import('@/views/EditBusinessView.vue'),
+    },
   ],
 })
 

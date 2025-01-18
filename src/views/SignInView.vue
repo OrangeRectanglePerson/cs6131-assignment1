@@ -2,13 +2,19 @@
 import '@/assets/main.css'
 import { ref } from 'vue'
 import { useAccountStore } from '@/stores/account'
-import { useRouter } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 
 const acc_store = useAccountStore()
 const router = useRouter()
+const route = useRoute()
 const username_input = ref('')
 const password_input = ref('')
 const alertText = ref('')
+const redirect_after = ref(
+  typeof route.query.redirect_after === 'undefined'
+    ? 'home'
+    : (route.query.redirect_after as string),
+)
 
 function sign_in(event: { preventDefault: () => void }) {
   alertText.value = ''
@@ -17,7 +23,15 @@ function sign_in(event: { preventDefault: () => void }) {
     alertText.value = 'Username field was left blank.'
   } else {
     acc_store.sign_in(username_input.value)
-    router.push({ name: 'home' })
+    // go back to business for businessview
+    if (redirect_after.value === 'business') {
+      router.push({
+        name: redirect_after.value,
+        query: { id: route.query.business_id?.toString() },
+      })
+    } else {
+      router.push({ name: redirect_after.value })
+    }
   }
 }
 </script>

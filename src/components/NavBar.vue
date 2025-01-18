@@ -49,7 +49,11 @@ function search(event: { preventDefault: () => void }) {
                 id="offcanvasNavbarLabel"
                 >{{ acc_store.username }}</RouterLink
               >
-              <RouterLink v-else to="/sign_in" class="account-name" id="offcanvasNavbarLabel"
+              <RouterLink
+                v-else
+                :to="'/sign_in?redirect_after=' + route.name?.toString()"
+                class="account-name"
+                id="offcanvasNavbarLabel"
                 >Sign In</RouterLink
               >
             </Transition>
@@ -73,6 +77,10 @@ function search(event: { preventDefault: () => void }) {
             <li class="nav-item">
               <RouterLink to="/search">Search</RouterLink>
               <p v-show="route.name === 'search'">you are here</p>
+            </li>
+            <li v-if="acc_store.signed_in" class="nav-item">
+              <RouterLink to="/favourites">Favourites</RouterLink>
+              <p v-show="route.name === 'favourites'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/about">About</RouterLink>
@@ -135,6 +143,12 @@ nav {
   left: auto;
   padding-right: 1em;
   padding-top: 1em;
+}
+
+.navbar-toggler-icon {
+  background-image: url('/square_book_icon_plain.svg');
+  height: 2em;
+  width: 2em;
 }
 
 .offcanvas-header {

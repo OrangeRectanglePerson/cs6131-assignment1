@@ -18,30 +18,40 @@ const router = useRouter()
     <p v-if="acc_store.signed_in" class="welcome">Welcome, {{ acc_store.username }}</p>
     <div class="account-cards" v-if="acc_store.signed_in">
       <AccountCard
-        title="Change Password"
-        to="/"
-        description="Change account passsword"
+        image="/heart.svg"
+        title="Favourites"
+        to="/favourites"
+        description="View businesses you have saved as a Favourite"
         footnote=""
         class="AccountCard"
       />
       <AccountCard
-        title="Edit Entries"
+        title="Change Password"
         to="/"
-        description="Edit database entries"
+        description="Change account passsword (not yet implemented)"
+        footnote=""
+        class="AccountCard"
+      />
+      <AccountCard
+        image="/pen.svg"
+        title="Edit Entries"
+        to="/business_editor_search"
+        description="Edit database entries (not yet implemented)"
         footnote="Admin Command"
         class="AccountCard"
       />
       <AccountCard
+        image="/user-pen.svg"
         title="Edit Account Permissions"
         to="/"
-        description="Edit the permissions given to users of the website"
+        description="Edit the permissions given to users of the website (not yet implemented)"
         footnote="Moderator Command"
         class="AccountCard"
       />
       <AccountCard
         title="Server Maintenance"
         to="/"
-        description="View server statistics and perform basic automated tasks"
+        description="View server statistics and perform basic automated tasks (not yet implemented)"
         footnote="Server Admin Command"
         class="AccountCard"
       />
@@ -49,13 +59,15 @@ const router = useRouter()
         image="/Radiation_warning_symbol.svg"
         title="Launch the Nukes"
         to="/"
-        description="You know you wanna do it"
+        description="You know you wanna do it (not yet implemented)"
         footnote="Presidential Command"
         class="AccountCard"
       />
     </div>
 
-    <RouterLink v-else class="sign-in-reminder" to="/sign_in">Please Sign In First</RouterLink>
+    <RouterLink v-else class="sign-in-reminder" to="/sign_in?redirect_after=account"
+      >Please Sign In First</RouterLink
+    >
   </main>
 </template>
 

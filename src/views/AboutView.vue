@@ -28,8 +28,20 @@ const router = useRouter()
     </p>
     <h2>Thanks to:</h2>
     <ul>
-      <li>Vernon Adams for designing the font "Michroma"</li>
-      <li>Daniel Johnson and Cyreal for designing the font "Jura"</li>
+      <li>
+        <a href="https://github.com/googlefonts/Michroma-font"> The Michroma Project Authors </a>
+        for designing the font "Michroma" (under the
+        <a href="https://openfontlicense.org/open-font-license-official-text/">
+          SIL Open Font License, Version 1.1 </a
+        >)
+      </li>
+      <li>
+        <a href="https://github.com/sevmeyer/oxanium"> The Oxanium Project Authors </a> for
+        designing the font "Oxanium" (under the
+        <a href="https://openfontlicense.org/open-font-license-official-text/">
+          SIL Open Font License, Version 1.1 </a
+        >)
+      </li>
       <li>Evan You and the Core Team for developing "Vue.js"</li>
       <li>
         <a href="https://commons.wikimedia.org/wiki/User:Manjiro5">Manjiro5</a>,
@@ -37,6 +49,36 @@ const router = useRouter()
         colors by Lim Devon,
         <a href="https://creativecommons.org/licenses/by/4.0/legalcode" rel="license">CC BY 4.0</a>
       </li>
+      <li>
+        <a href="https://commons.wikimedia.org/wiki/User:Lydia_Jane_Lewington"
+          >Lydia Jane Lewington</a
+        >,
+        <a
+          href="https://commons.wikimedia.org/wiki/File:Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg"
+          >Office space oxford street fitzrovia office space for hire 20 desk office</a
+        >,
+        <a href="https://creativecommons.org/licenses/by-sa/4.0/deed.en" rel="license"
+          >CC BY-SA 4.0</a
+        >
+      </li>
+      <li>
+        <a href="https://thenounproject.com/adnen.kadri/">Adnen Kadri</a>,
+        <a href="https://commons.wikimedia.org/wiki/File:Noun_project_Globe_icon_1109009.svg"
+          >Noun project Globe icon 1109009</a
+        >,
+        <a href="https://creativecommons.org/licenses/by/3.0/deed.en" rel="license">CC BY 3.0</a>
+      </li>
+      <li>
+        <a href="https://coreui.io/">CoreUI</a>,
+        <a
+          href="https://commons.wikimedia.org/wiki/File:Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg"
+          >Cib-nextdoor (CoreUI Icons v1.0.0)</a
+        >,
+        <a href="https://github.com/coreui/coreui-icons/blob/v2/LICENSE" rel="license"
+          >CoreUI Icons Free License</a
+        >
+      </li>
+      <li>Wikipedia for the paragraphs used as placeholder text</li>
     </ul>
   </div>
 </template>
@@ -85,7 +127,7 @@ p {
   animation: textFadeIn 1s ease-out 1s normal forwards;
 }
 ul {
-  font-size: 1em;
+  font-size: 0.9em;
   opacity: 0;
   animation: textFadeIn 1s ease-out 1s normal forwards;
 }

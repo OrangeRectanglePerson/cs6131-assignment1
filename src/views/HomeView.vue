@@ -1,8 +1,17 @@
 <script setup lang="ts">
 import '@/assets/main.css'
+import { ref } from 'vue'
 import { useAccountStore } from '@/stores/account'
+import { RouterLink, useRouter } from 'vue-router'
 
 const acc_store = useAccountStore()
+const search_query = ref('')
+const router = useRouter()
+
+function search(event: { preventDefault: () => void }) {
+  event.preventDefault()
+  router.push({ name: 'search', query: { search_query: search_query.value } })
+}
 </script>
 
 <template>
@@ -12,7 +21,22 @@ const acc_store = useAccountStore()
       Digital<br />
       Phonebook
     </h1>
-    <p v-if="acc_store.signed_in">Welcome, {{ acc_store.username }}</p>
+    <p v-if="acc_store.signed_in">
+      Welcome,
+      <RouterLink to="/account" class="account-name" id="offcanvasNavbarLabel">{{
+        acc_store.username
+      }}</RouterLink>
+    </p>
+    <form class="d-flex searchbar" role="search" v-on:submit="search">
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        v-model="search_query"
+      />
+      <button class="btn btn-outline-success" type="submit">Search</button>
+    </form>
   </main>
 </template>
 
@@ -22,13 +46,13 @@ const acc_store = useAccountStore()
   position: absolute;
   width: 100vw;
   height: 100vh;
-  padding-top: 1em;
+  padding-top: 2em;
   padding-left: 5vw;
   left: 0;
   background-color: rgb(var(--color-main-3));
   display: flex;
   flex-direction: column;
-  gap: 2em;
+  gap: 3em;
 }
 
 .big-brand {
@@ -37,24 +61,44 @@ const acc_store = useAccountStore()
   color: goldenrod;
   font-size: 7vw;
   opacity: 0;
+  margin: 0;
   animation: brandFadeIn 1s ease-out 0s normal forwards !important;
 }
 
 p {
   font-size: 1.5em;
   color: white;
+  margin: 0;
   opacity: 0;
   animation: textFadeIn 1s ease-out 1s normal forwards !important;
+}
+
+.searchbar {
+  font-size: 1em;
+  width: 50em;
+  max-width: 80vw;
+  opacity: 0;
+  animation: textFadeIn 1s ease-out 1s normal forwards !important;
+}
+.btn {
+  transition: 0.3s;
+  padding: 0 1em;
+  color: black !important;
+  background-color: rgb(var(--color-contrast-light)) !important;
+}
+.btn:hover {
+  filter: brightness(125%);
+  transition: 0.3s;
 }
 
 @keyframes brandFadeIn {
   0% {
     opacity: 0;
-    top: 3rem;
+    margin-top: 2rem;
   }
   100% {
     opacity: 1;
-    top: 1rem;
+    margin-top: 0rem;
   }
 }
 

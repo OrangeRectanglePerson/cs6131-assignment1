@@ -11,15 +11,25 @@ const business_id = typeof route.query.id === 'undefined' ? '' : (route.query.id
 
 const address = ref(''),
   phone_number = ref(''),
-  website = ref('')
+  website = ref(''),
+  desc = ref(''),
+  img_url = ref(
+    'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg/800px-Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg',
+  )
 
 onBeforeMount(() => {
   if (business_id !== '') {
     address.value = business_id + ' Placeholder Lane'
     phone_number.value = '1800-PLACE-HOLDER'
     website.value = business_id.replace(' ', '') + '.example.com'
+    desc.value =
+      "This is a Placeholder Description. Upholstery comes from the Middle English word upholder, which referred to an artisan who makes fabric furnishings. The term is equally applicable to domestic, automobile, airplane and boat furniture, and can be applied to mattresses, particularly the upper layers, though these often differ significantly in design. A person who works with upholstery is called an upholsterer. An apprentice upholsterer is sometimes called an outsider or trimmer. Traditional upholstery uses materials like coil springs (post-1850), animal hair (horse, hog and cow), coir, straw and hay, hessians, linen scrims, wadding, etc., and is done by hand, building each layer up. In contrast, today's upholsterers employ synthetic materials like dacron and vinyl, serpentine springs, and so on."
   }
 })
+
+function upload_image(event: { preventDefault: () => void }) {
+  event.preventDefault()
+}
 </script>
 
 <template>
@@ -32,13 +42,27 @@ onBeforeMount(() => {
     <p v-if="business_id === ''" class="business-title">
       This Business Does Not Exist! Please return to the <RouterLink to="/">Home Page</RouterLink>
     </p>
+    <p v-else-if="!acc_store.signed_in">
+      <RouterLink class="sign-in-reminder" to="/sign_in?redirect_after=business_editor_search"
+        >Please Sign In First</RouterLink
+      >
+    </p>
     <div v-else style="display: contents" class="everything-container">
+      <div class="edit-toolbar">
+        <button class="confirm">Confirm Edits</button>
+        <button class="discard" v-on:click="router.push({ name: 'business_editor_search' })">
+          Discard Edits
+        </button>
+      </div>
+
       <p class="business-title">{{ business_id }}</p>
 
-      <img
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg/800px-Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg"
-        class="business-image"
-      />
+      <img :src="img_url" class="business-image" />
+
+      <form class="edit-toolbar">
+        <input type="file" accept=".png, .jpg, .jpeg" />
+        <button type="submit" v-on:click="upload_image">Change Image</button>
+      </form>
 
       <div class="details">
         <p class="address">
@@ -46,71 +70,32 @@ onBeforeMount(() => {
             src="@/components/icons/nextdoor.svg"
             style="height: 1em; width: 1em; margin: 0 0.5em"
           />
-          {{ address }}
+          <input type="text" v-bind:value="address" />
         </p>
         <p class="website">
           <img
             src="@/components/icons/globe.svg"
             style="height: 1em; width: 1em; margin: 0 0.5em"
           />
-          {{ website }}
+          <input type="text" v-bind:value="website" />
         </p>
         <p class="phone_number">
           <img
             src="@/components/icons/telephone_icon.svg"
             style="height: 1em; width: 1em; margin: 0 0.5em"
           />
-          {{ phone_number }}
-        </p>
-      </div>
-
-      <div class="favourite-button-container">
-        <p
-          v-if="!acc_store.signed_in"
-          class="favourite-button"
-          name="favourite-button"
-          v-on:click="
-            router.push({
-              name: 'sign_in',
-              query: { redirect_after: 'business', business_id: business_id },
-            })
-          "
-        >
-          Sign in to Save as favourite
-        </p>
-        <p
-          v-else-if="acc_store.favourites.includes(business_id)"
-          class="favourite-button"
-          name="favourite-button"
-          v-on:click="acc_store.remove_favourite(business_id)"
-        >
-          Remove from favourites
-        </p>
-        <p
-          v-else
-          class="favourite-button"
-          name="favourite-button"
-          v-on:click="acc_store.add_favourite(business_id)"
-        >
-          Save as a favourite
+          <input type="tel" v-bind:value="phone_number" />
         </p>
       </div>
 
       <h4>Description:</h4>
-      <p class="business-description">
-        This is a Placeholder Description. Upholstery comes from the Middle English word upholder,
-        which referred to an artisan who makes fabric furnishings. The term is equally applicable to
-        domestic, automobile, airplane and boat furniture, and can be applied to mattresses,
-        particularly the upper layers, though these often differ significantly in design. A person
-        who works with upholstery is called an upholsterer. An apprentice upholsterer is sometimes
-        called an outsider or trimmer. Traditional upholstery uses materials like coil springs
-        (post-1850), animal hair (horse, hog and cow), coir, straw and hay, hessians, linen scrims,
-        wadding, etc., and is done by hand, building each layer up. In contrast, today's
-        upholsterers employ synthetic materials like dacron and vinyl, serpentine springs, and so
-        on.
-      </p>
+      <textarea class="business-description" v-bind:value="desc" rows="20"></textarea>
 
       <h4>Reviews:</h4>
+      <div class="edit-toolbar">
+        <button>Delete Reviews</button>
+        <button>Disable Reviews</button>
+      </div>
     </div>
   </main>
 </template>
@@ -123,7 +108,7 @@ onBeforeMount(() => {
   height: 100vh;
   padding: 2em 5vw;
   left: 0;
-  background-color: rgb(var(--color-main-3));
+  background-color: rgb(var(--color-contrast-dark));
   display: flex;
   flex-direction: column;
   gap: 1.5em;
@@ -138,6 +123,31 @@ onBeforeMount(() => {
   margin: 0;
   opacity: 0;
   animation: brandFadeIn 0.5s ease-out 0s normal forwards !important;
+}
+
+.edit-toolbar {
+  display: flex;
+  background-color: rgb(var(--color-main-1));
+  padding: 0.5em;
+  border-radius: 0.2em;
+  gap: 1em;
+}
+.edit-toolbar > button {
+  border-radius: 0.2em;
+  border-color: transparent;
+}
+.edit-toolbar > button:hover {
+  filter: brightness(125%);
+}
+.edit-toolbar > .confirm {
+  font-size: 1.5em;
+  background-color: green;
+  color: white;
+}
+.edit-toolbar > .discard {
+  font-size: 1.5em;
+  background-color: firebrick;
+  color: white;
 }
 
 .business-title {

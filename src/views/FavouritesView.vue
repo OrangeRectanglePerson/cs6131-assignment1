@@ -1,21 +1,14 @@
 <script setup lang="ts">
 import '@/assets/main.css'
 import SearchResultBig from '@/components/SearchResultBig.vue'
-import { onMounted, ref, useTemplateRef } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { useAccountStore } from '@/stores/account'
+import { ref, useTemplateRef } from 'vue'
+import { useRouter } from 'vue-router'
 
+const acc_store = useAccountStore()
 const router = useRouter()
-const route = useRoute()
-const search_query = ref(
-  typeof route.query.search_query === 'undefined' ? '' : (route.query.search_query as string),
-)
-const items = ref([1, 2, 3, 4, 5])
 const results_scroll_perc = ref(1)
 const search_results_list_container = useTemplateRef('search_results_list_container')
-
-onMounted(() => {
-  new_search()
-})
 
 function update_results_scroll_perc() {
   results_scroll_perc.value =
@@ -23,26 +16,6 @@ function update_results_scroll_perc() {
     search_results_list_container.value!.scrollTop /
       (search_results_list_container.value!.scrollHeight -
         search_results_list_container.value!.offsetHeight)
-}
-
-function search_btn(event: { preventDefault: () => void }) {
-  event.preventDefault()
-  router.push({ name: 'search', query: { search_query: search_query.value } })
-  new_search()
-}
-
-function new_search() {
-  if (search_query.value === '') return
-
-  //placeholder search for now
-  items.value = []
-  for (let i = 0; i < 3 + Math.floor(Math.random() * 18); i++) {
-    items.value = items.value.concat([i])
-  }
-  //end placeholder
-
-  search_results_list_container.value!.scrollTop = 0
-  results_scroll_perc.value = 1
 }
 </script>
 
@@ -56,44 +29,34 @@ function new_search() {
       </h1>
     </div>
 
-    <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        v-model="search_query"
-        v-on:input="new_search"
-      />
-      <button class="btn" type="submit">Search</button>
-    </form>
-
     <div class="search-querier-wrapper">
-      <Transition>
-        <p v-if="search_query === ''" class="search-querier">Type something to search!</p>
-        <p v-else class="search-querier">
-          Search Results for: <i>"{{ search_query }}"</i>
-        </p>
-      </Transition>
-    </div>
-    <Transition>
-      <div
-        class="search-results-list-container"
-        v-if="search_query !== ''"
-        v-on:scroll="update_results_scroll_perc"
-        ref="search_results_list_container"
+      <RouterLink
+        v-if="!acc_store.signed_in"
+        class="search-querier"
+        to="/sign_in?redirect_after=favourites"
+        >Please Sign In First</RouterLink
       >
-        <li v-for="item in items" :key="item">
-          <SearchResultBig
-            :name="search_query + ' ' + item"
-            :address="search_query + ' ' + item + ' Placeholder Lane'"
-            :phone_number="'1800-PLACE-HOLDER'"
-            :website="search_query + item + '.example.com'"
-            class="search-results"
-          />
-        </li>
-      </div>
-    </Transition>
+      <p v-else-if="acc_store.favourites.length === 0" class="search-querier">
+        You have not saved any businesses in your favourites list.
+      </p>
+      <p v-else class="search-querier">Your Saved Businesses:</p>
+    </div>
+    <div
+      class="search-results-list-container"
+      v-if="acc_store.favourites.length !== 0"
+      v-on:scroll="update_results_scroll_perc"
+      ref="search_results_list_container"
+    >
+      <li v-for="id in acc_store.favourites" :key="id">
+        <SearchResultBig
+          :name="id"
+          :address="id + ' Placeholder ' + 'Lane'"
+          :phone_number="'1800-PLACE-HOLDER'"
+          :website="id.replace(' ', '') + '.example.com'"
+          class="search-results"
+        />
+      </li>
+    </div>
   </main>
 </template>
 
@@ -115,7 +78,7 @@ main {
   height: 100vh;
   padding: 1em;
   left: 0;
-  background-color: rgb(var(--color-main-3));
+  background-color: rgb(var(--color-contrast-dark));
   display: flex;
   flex-direction: column;
   overflow: hidden;
@@ -157,7 +120,7 @@ main {
   background-color: rgb(var(--color-contrast-light)) !important;
 }
 .btn:hover {
-  filter: brightness(125%);
+  filter: brightness(85%);
   transition: 0.3s;
 }
 

@@ -56,6 +56,8 @@ function new_search() {
       </h1>
     </div>
 
+    <h2 style="text-align: center">Search for the business you wish to edit.</h2>
+
     <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
       <input
         class="form-control me-2"
@@ -89,6 +91,7 @@ function new_search() {
             :address="search_query + ' ' + item + ' Placeholder Lane'"
             :phone_number="'1800-PLACE-HOLDER'"
             :website="search_query + item + '.example.com'"
+            :to_edit="true"
             class="search-results"
           />
         </li>
@@ -115,7 +118,7 @@ main {
   height: 100vh;
   padding: 1em;
   left: 0;
-  background-color: rgb(var(--color-main-3));
+  background-color: rgb(var(--color-contrast-dark));
   display: flex;
   flex-direction: column;
   overflow: hidden;

@@ -4,6 +4,7 @@ export const useAccountStore = defineStore('account', {
   state: () => ({
     signed_in: false,
     username: '',
+    favourites: [] as string[],
   }),
   actions: {
     sign_in(_username: string) {
@@ -12,7 +13,12 @@ export const useAccountStore = defineStore('account', {
     },
     sign_out() {
       this.signed_in = false
-      console.log("AAAAAAa")
+    },
+    add_favourite(id: string) {
+      this.favourites.push(id)
+    },
+    remove_favourite(id: string) {
+      this.favourites = this.favourites.filter((i) => i !== id)
     },
   },
 })

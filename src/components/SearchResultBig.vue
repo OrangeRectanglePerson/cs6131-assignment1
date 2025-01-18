@@ -4,6 +4,10 @@ defineProps({
   address: String,
   phone_number: String,
   website: String,
+  to_edit: {
+    type: Boolean,
+    default: false,
+  },
 })
 </script>
 
@@ -14,7 +18,9 @@ defineProps({
       class="search_result_image"
     />
     <div style="display: grid; width: 100%">
-      <RouterLink class="name" :to="'/business?id=' + name">{{ name }}</RouterLink>
+      <RouterLink class="name" :to="(to_edit ? '/business_editor?id=' : '/business?id=') + name">{{
+        name
+      }}</RouterLink>
       <div class="details">
         <p class="address">
           <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
