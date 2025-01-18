@@ -78,6 +78,7 @@ function search(event: { preventDefault: () => void }) {
               <RouterLink to="/about">About</RouterLink>
               <p v-show="route.name === 'about'">you are here</p>
             </li>
+            <!--
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -97,6 +98,7 @@ function search(event: { preventDefault: () => void }) {
                 <li><a class="dropdown-item" href="#">Something else here</a></li>
               </ul>
             </li>
+            -->
           </ul>
           <form class="d-flex mt-3" role="search" v-on:submit="search">
             <input

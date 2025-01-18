@@ -54,21 +54,19 @@ function new_search() {
         Digital<br />
         Phonebook
       </h1>
-
-
     </div>
 
     <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
-        <input
-          class="form-control me-2"
-          type="search"
-          placeholder="Search"
-          aria-label="Search"
-          v-model="search_query"
-          v-on:input="new_search"
-        />
-        <button class="btn" type="submit">Search</button>
-      </form>
+      <input
+        class="form-control me-2"
+        type="search"
+        placeholder="Search"
+        aria-label="Search"
+        v-model="search_query"
+        v-on:input="new_search"
+      />
+      <button class="btn" type="submit">Search</button>
+    </form>
 
     <div class="search-querier-wrapper">
       <Transition>
@@ -145,11 +143,11 @@ main {
 }
 
 .searchbar {
-	height: 2em;
-	margin: 1em auto;
-	font-weight: 400;
-	width: 50em;
-	max-width: 90vw;
+  height: 2em;
+  margin: 1em auto;
+  font-weight: 400;
+  width: 50em;
+  max-width: 90vw;
 }
 
 .btn {
@@ -167,8 +165,7 @@ main {
   animation: contentFadeIn 1s ease-out 0s normal forwards;
 }
 .search-querier {
-  font-family: 'Jura', sans-serif;
-  font-weight: 300;
+  font-weight: 400;
   font-size: 1.5em;
   color: white;
   max-width: 90vw;
@@ -196,8 +193,6 @@ main {
 }
 
 .search-results {
-  font-family: 'Jura', sans-serif;
-  font-weight: 300;
   color: white;
   grid-row-gap: 1.2em;
   padding: 1.2em 0;
