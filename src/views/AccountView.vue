@@ -6,6 +6,7 @@ import AccountCard from '@/components/AccountCard.vue'
 
 const acc_store = useAccountStore()
 const router = useRouter()
+const _BASE_URL = import.meta.env.BASE_URL
 </script>
 
 <template>
@@ -18,7 +19,7 @@ const router = useRouter()
     <p v-if="acc_store.signed_in" class="welcome">Welcome, {{ acc_store.username }}</p>
     <div class="account-cards" v-if="acc_store.signed_in">
       <AccountCard
-        image="/heart.svg"
+        :image="_BASE_URL + 'icons/heart.svg'"
         title="Favourites"
         to="/favourites"
         description="View businesses you have saved as a Favourite"
@@ -33,15 +34,15 @@ const router = useRouter()
         class="AccountCard"
       />
       <AccountCard
-        image="/pen.svg"
+        :image="_BASE_URL + 'icons/pen.svg'"
         title="Edit Entries"
         to="/business_editor_search"
-        description="Edit database entries (not yet implemented)"
+        description="Edit database entries"
         footnote="Admin Command"
         class="AccountCard"
       />
       <AccountCard
-        image="/user-pen.svg"
+        :image="_BASE_URL + 'icons/user-pen.svg'"
         title="Edit Account Permissions"
         to="/"
         description="Edit the permissions given to users of the website (not yet implemented)"
@@ -56,7 +57,7 @@ const router = useRouter()
         class="AccountCard"
       />
       <AccountCard
-        image="/Radiation_warning_symbol.svg"
+        :image="_BASE_URL + 'icons/Radiation_warning_symbol.svg'"
         title="Launch the Nukes"
         to="/"
         description="You know you wanna do it (not yet implemented)"

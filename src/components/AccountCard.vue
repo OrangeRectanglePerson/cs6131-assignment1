@@ -14,7 +14,7 @@ defineProps({
   footnote: String,
   image: {
     type: String,
-    default: '/square_book_icon.svg',
+    default: import.meta.env.BASE_URL + 'icons/square_book_icon.svg',
   },
 })
 </script>

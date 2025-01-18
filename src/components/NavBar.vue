@@ -9,6 +9,7 @@ const acc_store = useAccountStore()
 const router = useRouter()
 const route = useRoute()
 const search_query = ref('')
+const NAVVAR_ICON_CSS = "url('" + import.meta.env.BASE_URL + "icons/square_book_icon_plain.svg')"
 
 function sign_out() {
   acc_store.sign_out()
@@ -146,7 +147,7 @@ nav {
 }
 
 .navbar-toggler-icon {
-  background-image: url('/square_book_icon_plain.svg');
+  background-image: v-bind(NAVVAR_ICON_CSS);
   height: 2em;
   width: 2em;
 }
