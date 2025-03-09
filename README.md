@@ -1,6 +1,6 @@
 # cs6131-assignment1
 
-A foray into web design as part of my school's computer science module.
+A foray into web design as part of my school's computer science module. It is a template frontend for an online business directory/phonebook.
 
 Below is the template Vue setup instructions.
 
