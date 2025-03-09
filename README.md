@@ -1,6 +1,8 @@
-# cs6131-assignment
+# cs6131-assignment1
 
-This template should help get you started developing with Vue 3 in Vite.
+A foray into web design as part of my school's computer science module.
+
+Below is the template Vue setup instructions.
 
 ## Recommended IDE Setup
 
