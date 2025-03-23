@@ -8,9 +8,9 @@ const router = useRouter()
 <template>
   <div class="about">
     <p class="michroma-regular brand" v-on:click="router.push({ name: 'home' })" type="button">
-      The<br />
-      Digital<br />
-      Phonebook
+      Patient Data<br />
+      Management<br />
+      System
     </p>
     <h1>About the website</h1>
     <h2>Made by Lim Devon</h2>

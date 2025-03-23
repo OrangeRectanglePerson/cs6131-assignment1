@@ -20,7 +20,7 @@ function sign_in(event: { preventDefault: () => void }) {
   alertText.value = ''
   event.preventDefault()
   if (username_input.value === '') {
-    alertText.value = 'Username field was left blank.'
+    alertText.value = 'User ID field was left blank.'
   } else {
     acc_store.sign_in(username_input.value)
     // go back to business for businessview
@@ -39,13 +39,13 @@ function sign_in(event: { preventDefault: () => void }) {
 <template>
   <main>
     <h1 class="brand" v-on:click="router.push({ name: 'home' })" type="button">
-      The<br />
-      Digital<br />
-      Phonebook
+      Patient Data<br />
+      Management<br />
+      System
     </h1>
     <form role="form" v-on:submit="sign_in">
-      <label for="username">Username:</label>
-      <input id="username" type="text" placeholder="Username" v-model="username_input" />
+      <label for="username">Patient/Staff ID:</label>
+      <input id="username" type="text" placeholder="Patient/Staff ID" v-model="username_input" />
       <label for="password">Password:</label>
       <input id="password" type="password" placeholder="" v-model="password_input" />
       <p v-if="alertText !== ''">

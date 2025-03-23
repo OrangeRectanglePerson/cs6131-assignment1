@@ -43,13 +43,15 @@ function search(event: { preventDefault: () => void }) {
         <div class="offcanvas-header">
           <div class="firstline">
             <Transition name="firstline" mode="out-in">
-              <RouterLink
-                v-if="acc_store.signed_in"
+              <div v-if="acc_store.signed_in" style="display: flex; flex-direction: row; column-gap: .5em;">
+                <RouterLink
                 to="/account"
                 class="account-name"
                 id="offcanvasNavbarLabel"
                 >{{ acc_store.username }}</RouterLink
               >
+              <p v-show="route.name === 'account'" style="align-self: center; font-size: .8rem; margin: 0;">you are here</p>
+            </div>
               <RouterLink
                 v-else
                 :to="'/sign_in?redirect_after=' + route.name?.toString()"
@@ -73,7 +75,7 @@ function search(event: { preventDefault: () => void }) {
           <ul class="navbar-nav justify-content-end flex-grow-1 pe-3">
             <li class="nav-item">
               <RouterLink to="/">Home</RouterLink>
-              <p v-show="route.name === 'home'">you are here</p>
+              <p v-show="route.name === 'home' || route.name === 'welcome'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/search">Search</RouterLink>

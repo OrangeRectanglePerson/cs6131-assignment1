@@ -12,9 +12,9 @@ const _BASE_URL = import.meta.env.BASE_URL
 <template>
   <main class="account-screen">
     <h1 class="michroma-regular big-brand" v-on:click="router.push({ name: 'home' })" type="button">
-      The<br />
-      Digital<br />
-      Phonebook
+      Patient Data<br />
+      Management<br />
+      System
     </h1>
     <p v-if="acc_store.signed_in" class="welcome">Welcome, {{ acc_store.username }}</p>
     <div class="account-cards" v-if="acc_store.signed_in">

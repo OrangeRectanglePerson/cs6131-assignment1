@@ -50,9 +50,9 @@ function new_search() {
   <main>
     <div class="top">
       <h1 class="michroma-regular brand" v-on:click="router.push({ name: 'home' })" type="button">
-        The<br />
-        Digital<br />
-        Phonebook
+        Patient Data<br />
+      Management<br />
+      System
       </h1>
     </div>
 

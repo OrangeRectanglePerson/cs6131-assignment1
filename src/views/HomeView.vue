@@ -12,21 +12,30 @@ function search(event: { preventDefault: () => void }) {
   event.preventDefault()
   router.push({ name: 'search', query: { search_query: search_query.value } })
 }
+
+defineProps({
+  force_name: {
+    type: String,
+    required: false,
+  },
+})
 </script>
 
 <template>
   <main class="landing-screen">
     <h1 class="michroma-regular big-brand">
-      The<br />
-      Digital<br />
-      Phonebook
+      Patient Data<br />
+      Managment<br />
+      System
     </h1>
-    <p v-if="acc_store.signed_in">
+    <p v-if="acc_store.signed_in && force_name === undefined">
       Welcome,
       <RouterLink to="/account" class="account-name" id="offcanvasNavbarLabel">{{
         acc_store.username
       }}</RouterLink>
     </p>
+    <p v-else-if="force_name !== undefined">Welcome, {{ force_name }} (Forced Welcome. You are not signed in.)</p>
+    <p v-else>To force a welcome message to appear, use route <span style="font-family: monospace;">/welcome/&lt;name&gt;</span></p>
     <form class="d-flex searchbar" role="search" v-on:submit="search">
       <input
         class="form-control me-2"
@@ -63,6 +72,7 @@ function search(event: { preventDefault: () => void }) {
   opacity: 0;
   margin: 0;
   animation: brandFadeIn 1s ease-out 0s normal forwards !important;
+  width: fit-content;
 }
 
 p {

@@ -6,7 +6,7 @@ import { computed } from 'vue'
 const route = useRoute()
 
 const hideNavBar = computed(() => {
-  const noShowRoutes: string[] = ['sign_in', 'account']
+  const noShowRoutes: string[] = []
   for (const r of noShowRoutes) {
     if (r === route.name) {
       return true
