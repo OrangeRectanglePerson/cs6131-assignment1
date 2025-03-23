@@ -9,7 +9,7 @@ const acc_store = useAccountStore()
 const router = useRouter()
 const route = useRoute()
 const search_query = ref('')
-const NAVVAR_ICON_CSS = "url('" + import.meta.env.BASE_URL + "icons/square_book_icon_plain.svg')"
+const NAVVAR_ICON_CSS = "url('" + import.meta.env.BASE_URL + "icons/Menu_button.svg')"
 
 function sign_out() {
   acc_store.sign_out()
