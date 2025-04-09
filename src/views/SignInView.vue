@@ -22,16 +22,21 @@ function sign_in(event: { preventDefault: () => void }) {
   if (username_input.value === '') {
     alertText.value = 'User ID field was left blank.'
   } else {
-    acc_store.sign_in(username_input.value)
-    // go back to business for businessview
-    if (redirect_after.value === 'business') {
-      router.push({
-        name: redirect_after.value,
-        query: { id: route.query.business_id?.toString() },
-      })
-    } else {
-      router.push({ name: redirect_after.value })
-    }
+    acc_store.sign_in(username_input.value, password_input.value)
+    .then((text : string) => {
+      if(acc_store.signed_in){
+        if (redirect_after.value === 'business') {
+          router.push({
+            name: redirect_after.value,
+            query: { id: route.query.business_id?.toString() },
+          })
+        } else {
+          router.push({ name: redirect_after.value })
+        }
+      } else {
+        alertText.value = text
+      }
+    })
   }
 }
 </script>
