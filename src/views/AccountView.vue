@@ -42,6 +42,15 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
+        v-if="acc_store.userid[0] == 'S'"
+        :image="_BASE_URL + 'icons/user-pen.svg'"
+        title="Create an account"
+        to="/create_account"
+        description="Add an account"
+        footnote="Moderator Command"
+        class="AccountCard"
+      />
+      <AccountCard
         :image="_BASE_URL + 'icons/user-pen.svg'"
         title="Edit Account Permissions"
         to="/"
