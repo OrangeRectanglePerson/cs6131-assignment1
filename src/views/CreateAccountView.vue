@@ -86,7 +86,7 @@ function create_account(event: { preventDefault: () => void }) {
   <main>
     <TopRightLogo/>
 
-    <form role="form" v-on:submit="create_account">
+    <form role="form" v-on:submit="create_account" style="overflow-y: scroll;">
       <label for="account_type">Account Type:</label>
       <select name="account_type" id="account_type" v-model="acc_type">
         <option value="0">Patient</option>
