@@ -25,7 +25,7 @@ defineProps({
   <main class="landing-screen">
     <h1 class="michroma-regular big-brand">
       Patient Data<br />
-      Managment<br />
+      Management<br />
       System
     </h1>
     <p v-if="acc_store.signed_in && force_name === undefined">
