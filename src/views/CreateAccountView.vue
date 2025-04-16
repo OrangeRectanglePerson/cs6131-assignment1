@@ -86,7 +86,8 @@ function create_account(event: { preventDefault: () => void }) {
   <main>
     <TopRightLogo/>
 
-    <form role="form" v-on:submit="create_account" style="overflow-y: scroll;">
+    <h1 class="not-staff" v-if="!acc_store.signed_in">Sign in as staff to create new account.</h1>
+    <form role="form" v-on:submit="create_account" v-else-if="acc_store.userid[0]==='S'">
       <label for="account_type">Account Type:</label>
       <select name="account_type" id="account_type" v-model="acc_type">
         <option value="0">Patient</option>
@@ -134,6 +135,7 @@ function create_account(event: { preventDefault: () => void }) {
       <div v-else class="p"></div>
       <button class="btn" type="submit">Create Account</button>
     </form>
+    <h1 class="not-staff" v-else>Only staff can create new accounts</h1>
 
   </main>
 </template>
@@ -149,7 +151,7 @@ main {
   background-color: rgb(var(--color-main-3));
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  overflow-y: scroll;
 }
 
 form {
@@ -164,6 +166,11 @@ form {
 form > label {
   color: white;
   line-height: 1;
+}
+
+.not-staff{
+  align-self: center;
+  margin: auto;
 }
 
 .btn {
