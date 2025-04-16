@@ -90,10 +90,10 @@ function create_account(event: { preventDefault: () => void }) {
     <form role="form" v-on:submit="create_account" v-else-if="acc_store.userid[0]==='S'">
       <label for="account_type">Account Type:</label>
       <select name="account_type" id="account_type" v-model="acc_type">
-        <option value="0">Patient</option>
-        <option value="1">Doctor</option>
-        <option value="2">Non-Consulting Specialist</option>
-        <option value="3">Pharmacist</option>
+        <option value=0>Patient</option>
+        <option value=1>Doctor</option>
+        <option value=2>Non-Consulting Specialist</option>
+        <option value=3>Pharmacist</option>
       </select>
       <!-- Common -->
       <label for="name">Name:</label>

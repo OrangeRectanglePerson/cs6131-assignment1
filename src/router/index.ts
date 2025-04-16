@@ -63,6 +63,12 @@ const router = createRouter({
       name: 'business_editor',
       component: () => import('@/views/EditBusinessView.vue'),
     },
+
+    {
+      path: '/doctor_search',
+      name: 'doctor_search',
+      component: () => import('@/views/DoctorSearch.vue'),
+    },
   ],
 })
 
