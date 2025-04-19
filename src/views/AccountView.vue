@@ -27,9 +27,9 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
-        title="Change Password"
-        to="/"
-        description="Change account passsword (not yet implemented)"
+        title="Edit Account Information"
+        to="/account_editor"
+        description="Change account information"
         footnote=""
         class="AccountCard"
       />
