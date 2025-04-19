@@ -40,8 +40,8 @@ function new_search() {
   fetch(`${BACKEND_URL}/get_doctors`, {
     method: "POST",
     body: JSON.stringify({
-      start_from : 0,
-      num_entries: !Number.isNaN(search_query.value) ? parseInt(search_query.value) : 50 // PLACEHOLDER VALUE
+      "start_from" : 0,
+      "search_text": search_query.value
     }),
     headers: {
         "Content-type": "application/json; charset=UTF-8"
@@ -98,7 +98,10 @@ function new_search() {
 
     <div class="search-querier-wrapper">
       <Transition>
-        <p v-if="search_query === ''" class="search-querier">Type something to search! (For now, it just dictates number of entries)</p>
+        <p v-if="search_query === ''" class="search-querier">
+          Type something to search!
+          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 20 results max.)
+        </p>
         <p v-else class="search-querier">
           Search Results for: <i>"{{ search_query }}"</i>
         </p>
@@ -111,7 +114,10 @@ function new_search() {
         v-on:scroll="update_results_scroll_perc"
         ref="search_results_list_container"
       >
-        <li v-for="item in items" :key="item">
+        <h2 class="no-results-message" v-if="items.length === 0">
+          No Results! Sorry!
+        </h2>
+        <li v-else v-for="item in items" :key="item">
           <DoctorSearchResult
             :name="item[1]"
             :department="item[7]"
@@ -218,6 +224,10 @@ main {
   padding: 0.5em 0;
   border-top: 0.1em solid white;
   border-bottom: 0.1em solid white;
+}
+
+.no-results-message{
+  text-align: center;
 }
 
 .search-results {
