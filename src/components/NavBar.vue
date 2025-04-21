@@ -78,8 +78,8 @@ function search(event: { preventDefault: () => void }) {
               <p v-show="route.name === 'home' || route.name === 'welcome'">you are here</p>
             </li>
             <li class="nav-item">
-              <RouterLink to="/search">Search</RouterLink>
-              <p v-show="route.name === 'search'">you are here</p>
+              <RouterLink to="/medicine_search">Medicine</RouterLink>
+              <p v-show="route.name === 'medicine_search'">you are here</p>
             </li>
             <li class="nav-item">
               <RouterLink to="/doctor_search">Doctors</RouterLink>
@@ -93,27 +93,6 @@ function search(event: { preventDefault: () => void }) {
               <RouterLink to="/about">About</RouterLink>
               <p v-show="route.name === 'about'">you are here</p>
             </li>
-            <!--
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-              >
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            -->
           </ul>
           <form class="d-flex mt-3" role="search" v-on:submit="search">
             <input

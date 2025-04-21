@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import '@/assets/main.css'
-import DoctorSearchResult from '@/components/DoctorSearchResult.vue'
+import MedicineSearchResult from '@/components/MedicineSearchResult.vue'
 import { onMounted, ref, useTemplateRef } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 
@@ -10,6 +10,12 @@ const router = useRouter()
 const route = useRoute()
 const search_query = ref(
   typeof route.query.search_query === 'undefined' ? '' : (route.query.search_query as string),
+)
+const in_stock_filter = ref(
+  typeof route.query.in_stock_filter === 'undefined' ? false : (route.query.in_stock_filter === "true"),
+)
+const no_stock_filter = ref(
+  typeof route.query.no_stock_filter === 'undefined' ? false : (route.query.no_stock_filter === "true"),
 )
 const items = ref([])
 const results_scroll_perc = ref(1)
@@ -29,7 +35,14 @@ function update_results_scroll_perc() {
 
 function search_btn(event: { preventDefault: () => void }) {
   event.preventDefault()
-  router.push({ name: 'doctor_search', query: { search_query: search_query.value } })
+  router.push({
+    name: 'medicine_search',
+    query: {
+      "search_query" : search_query.value ,
+      "no_stock_filter" : no_stock_filter.value,
+      "in_stock_filter" : in_stock_filter.value
+    }
+  })
   new_search()
 }
 
@@ -37,11 +50,13 @@ function new_search() {
   if (search_query.value === '') return
 
   //all your search needs are here
-  fetch(`${BACKEND_URL}/get_doctors`, {
+  fetch(`${BACKEND_URL}/get_medicine`, {
     method: "POST",
     body: JSON.stringify({
       "start_from" : 0,
       "num_results" : 20,
+      "no_stock" : no_stock_filter.value,
+      "in_stock" : in_stock_filter.value,
       "search_text": search_query.value
     }),
     headers: {
@@ -86,22 +101,45 @@ function new_search() {
     </div>
 
     <form class="d-flex searchbar" role="search" v-on:submit="search_btn">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        v-model="search_query"
-        v-on:input="new_search"
-      />
-      <button class="btn" type="submit">Search</button>
+      <div class="searchbar-row1">
+        <input
+          class="form-control me-2"
+          type="search"
+          placeholder="Search"
+          aria-label="Search"
+          v-model="search_query"
+          v-on:input="new_search"
+        />
+        <button class="btn" type="submit">Search</button>
+      </div>
+      <div class="searchbar-row2">
+        <input
+          type="checkbox"
+          id="in_stock"
+          name="stock_filter"
+          aria-label="stocked_filter"
+          v-model="in_stock_filter"
+          v-on:change="new_search"
+        />
+        <label for="stocked_filter">In Stock</label>
+        <p style="margin:0">|</p>
+        <input
+          type="checkbox"
+          id="no_stock"
+          name="stock_filter"
+          aria-label="stocked_filter"
+          v-model="no_stock_filter"
+          v-on:change="new_search"
+        />
+        <label for="no_stock">No Stock</label>
+      </div>
     </form>
 
     <div class="search-querier-wrapper">
       <Transition>
         <p v-if="search_query === ''" class="search-querier">
           Type something to search!
-          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 20 results max.)
+          <br>(For now, it just searches by name. Type '%' to see all medicine. Limited to 20 results max.)
         </p>
         <p v-else class="search-querier">
           Search Results for: <i>"{{ search_query }}"</i>
@@ -119,11 +157,10 @@ function new_search() {
           No Results! Sorry!
         </h2>
         <li v-else v-for="item in items" :key="item">
-          <DoctorSearchResult
+          <MedicineSearchResult
             :name="item[1]"
-            :department="item[7]"
-            :staff_id="item[0]"
-            :phone_number="item[4]"
+            :id="item[0]"
+            :quantity="item[2]"
             class="search-results"
           />
         </li>
@@ -178,11 +215,23 @@ main {
 }
 
 .searchbar {
-  height: 2em;
+  flex-direction: column;
+  height: auto;
   margin: 1em auto;
   font-weight: 400;
   width: 50em;
   max-width: 90vw;
+}
+.searchbar-row1{
+  display: flex;
+  flex-direction: row;
+}
+.searchbar-row2{
+  margin-top: .5em;
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: center;
 }
 
 .btn {
@@ -201,7 +250,7 @@ main {
 }
 .search-querier {
   font-weight: 400;
-  font-size: 1.5em;
+  font-size: 1.2em;
   color: white;
   max-width: 90vw;
   margin: 0.1em auto 1em auto;
@@ -219,7 +268,7 @@ main {
   grid-auto-rows: max-content;
   grid-row-gap: 0;
   margin: 0 auto;
-  width: 85vw;
+  width: 60vw;
   scrollbar-width: thin;
   font-size: 1.1em;
   padding: 0.5em 0;
@@ -234,7 +283,7 @@ main {
 .search-results {
   color: white;
   grid-row-gap: 1.2em;
-  padding: 1.2em 0;
+  padding: 1.2em 5em;
 }
 
 @keyframes brandFadeIn {
