@@ -283,7 +283,7 @@ main {
 .search-results {
   color: white;
   grid-row-gap: 1.2em;
-  padding: 1.2em 5em;
+  padding: 1.2em 0em;
 }
 
 @keyframes brandFadeIn {

@@ -29,7 +29,15 @@ const _BASE_URL = import.meta.env.BASE_URL
       <AccountCard
         title="Edit Account Information"
         to="/account_editor"
-        description="Change account information"
+        description="Edit account information"
+        footnote=""
+        class="AccountCard"
+      />
+      <AccountCard
+        v-if="acc_store.userid[0] == 'S'"
+        title="Change Departments"
+        to="/staff_edit_department"
+        description="Change department"
         footnote=""
         class="AccountCard"
       />

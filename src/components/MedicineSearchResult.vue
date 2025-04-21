@@ -8,12 +8,10 @@ defineProps({
 
 <template>
   <div class="search-result-container">
-    <!--
     <img
-      src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d8/Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg/800px-Office_space_oxford_street_fitzrovia_office_space_for_hire_20_desk_office.jpg"
+      src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Vicodin5mgcropped.jpg"
       class="search_result_image"
     />
-    -->
     <div style="display: grid; width: 100%">
       <RouterLink class="name" :to="'/medicine?id=' + name">{{
         name

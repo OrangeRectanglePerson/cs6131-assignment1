@@ -7,6 +7,7 @@ export const useAccountStore = defineStore('account', {
     username: '',
     userid: '',
     session_key: '',
+    account_type: -1,
     favourites: [] as string[],
   }),
   actions: {
@@ -38,6 +39,7 @@ export const useAccountStore = defineStore('account', {
               this.signed_in = true
               this.userid = json_response["confirmed_userid"]
               this.session_key = json_response["session_key"]
+              this.account_type = json_response["account_type"]
               return "success"
             }
             return json_response["text"]
