@@ -10,10 +10,10 @@ const acc_store = useAccountStore()
 const route = useRoute()
 const query_id = typeof route.query.id === 'undefined' ? '' : (route.query.id as string)
 
-const acc_type = ref(-1),
-name = ref(''),
+const name = ref(''),
 id = ref(''),
-quantity = ref('')
+quantity = ref(''),
+isAllergic = ref(false)
 
 
 
@@ -45,14 +45,70 @@ onBeforeMount(() => {
       name.value = medicine_data[1]
       quantity.value = medicine_data[2]
     }
-    else{
-      acc_type.value = -1
+    if(acc_store.signed_in && acc_store.userid[0] === 'P'){
+      fetch(`${BACKEND_URL}/get_patient_allergies`, {
+        method: "POST",
+        headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            },
+        body: JSON.stringify({
+          "requester_id" : acc_store.userid,
+          "session_key" : acc_store.session_key,
+          "patient_id" : acc_store.userid,
+          "medicine_id" : id.value,
+          "medicine_details" : false
+        })
+      })
+      .then((response) => {
+        if(!response.ok) return Promise.reject(response)
+        else return response.text()
+      })
+      .then((json_text : string) => {
+        const json_response = JSON.parse(json_text)
+        console.log(json_response)
+        if(json_response["request_success"]) {
+          isAllergic.value = json_response['isAllergic']
+        }
+      })
+      .catch(error => {
+          console.log(error)
+      })
     }
   })
   .catch(error => {
       console.log(error)
   })
 })
+
+function toggleAllergy(){
+  fetch(`${BACKEND_URL}/edit_patient_allergies`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "editor_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : acc_store.userid,
+      "medicine_id" : id.value,
+      "deletion" : isAllergic.value
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    console.log(json_response)
+    if(json_response["request_success"]) {
+      isAllergic.value = !isAllergic.value
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
 
 </script>
 
@@ -89,12 +145,20 @@ onBeforeMount(() => {
 
       <div class="favourite-button-container">
         <p
-          v-if="acc_store.signed_in && acc_store.userid[0] === 'P'"
+          v-if="acc_store.signed_in && acc_store.userid[0] === 'P' && !isAllergic"
           class="favourite-button"
           name="favourite-button"
-          v-on:click="console.log('PLACEHOLDER')"
+          v-on:click="toggleAllergy"
         >
           Add as allergy
+        </p>
+        <p
+          v-if="acc_store.signed_in && acc_store.userid[0] === 'P' && isAllergic"
+          class="favourite-button"
+          name="favourite-button"
+          v-on:click="toggleAllergy"
+        >
+          Remove allergy
         </p>
       </div>
     </div>

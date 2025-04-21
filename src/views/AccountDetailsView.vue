@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import '@/assets/main.css'
+import MedicineSearchResult from '@/components/MedicineSearchResult.vue'
 import { useAccountStore } from '@/stores/account'
 import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
@@ -22,8 +23,8 @@ works_in = ref(''),
 specialises_in = ref(''),
 nric = ref(''),
 dob = ref(''),
-place_of_residence = ref('')
-
+place_of_residence = ref(''),
+allergies = ref([])
 
 
 onBeforeMount(() => {
@@ -37,8 +38,8 @@ onBeforeMount(() => {
               "Content-type": "application/json; charset=UTF-8"
           },
       body: JSON.stringify({
-        "userid" : acc_store.userid,
-        "requester_id" : user_id,
+        "userid" : user_id,
+        "requester_id" : acc_store.userid,
         "session_key" : acc_store.session_key,
       })
     })
@@ -48,7 +49,6 @@ onBeforeMount(() => {
     })
     .then((json_text : string) => {
       const json_response = JSON.parse(json_text)
-      console.log(json_response)
       if(json_response["request_success"]) {
         acc_type.value = json_response["acc_type"]
         const data_tuple = json_response["data_tuple"]
@@ -59,6 +59,33 @@ onBeforeMount(() => {
           nric.value = data_tuple[1]
           place_of_residence.value = data_tuple[5]
           dob.value = data_tuple [2]
+          // get allergies
+          fetch(`${BACKEND_URL}/get_patient_allergies`, {
+            method: "POST",
+            headers: {
+                    "Content-type": "application/json; charset=UTF-8"
+                },
+            body: JSON.stringify({
+              "requester_id" : acc_store.userid,
+              "session_key" : acc_store.session_key,
+              "patient_id" : user_id,
+              "medicine_id" : null,
+              "medicine_details" : true
+            })
+          })
+          .then((response) => {
+            if(!response.ok) return Promise.reject(response)
+            else return response.text()
+          })
+          .then((json_text : string) => {
+            const json_response = JSON.parse(json_text)
+            if(json_response["request_success"]) {
+              allergies.value = json_response["list"]
+            }
+          })
+          .catch(error => {
+              console.log(error)
+          })
         }
         if(acc_type.value > 0){
           name.value = data_tuple[1]
@@ -94,8 +121,8 @@ onBeforeMount(() => {
               "Content-type": "application/json; charset=UTF-8"
           },
       body: JSON.stringify({
-        "requester_id" : acc_store.userid,
         "userid" : user_id ,
+        "requester_id" : acc_store.userid,
         "session_key" : acc_store.session_key,
       })
     })
@@ -214,19 +241,22 @@ onBeforeMount(() => {
         </p>
       </div>
 
-      <h4>Description:</h4>
-      <p class="business-description">
-        This is a Placeholder Description. Upholstery comes from the Middle English word upholder,
-        which referred to an artisan who makes fabric furnishings. The term is equally applicable to
-        domestic, automobile, airplane and boat furniture, and can be applied to mattresses,
-        particularly the upper layers, though these often differ significantly in design. A person
-        who works with upholstery is called an upholsterer. An apprentice upholsterer is sometimes
-        called an outsider or trimmer. Traditional upholstery uses materials like coil springs
-        (post-1850), animal hair (horse, hog and cow), coir, straw and hay, hessians, linen scrims,
-        wadding, etc., and is done by hand, building each layer up. In contrast, today's
-        upholsterers employ synthetic materials like dacron and vinyl, serpentine springs, and so
-        on.
-      </p>
+
+      <h4 v-if="allergies.length > 0">Allergies:</h4>
+      <div
+        class="allergy-results-list-container"
+        v-if="allergies.length > 0"
+        ref="allergy_results_list_container"
+      >
+        <li v-for="allergy in allergies" :key="allergy">
+          <MedicineSearchResult
+            :name="allergy[2]"
+            :id="allergy[1]"
+            :quantity="allergy[3]"
+            class="allergy-results"
+          />
+        </li>
+      </div>
 
     </div>
   </main>
@@ -317,6 +347,25 @@ onBeforeMount(() => {
 .business-description {
   opacity: 0;
   animation: textFadeIn 0.5s ease-out 0.5s normal forwards !important;
+}
+
+.allergy-results-list-container {
+  display: grid;
+  grid-auto-rows: max-content;
+  grid-row-gap: 0;
+  margin: 0 auto;
+  width: 85vw;
+  scrollbar-width: thin;
+  font-size: 1.1em;
+  padding: 0.5em 0;
+  border-top: 0.1em solid white;
+  border-bottom: 0.1em solid white;
+  list-style-type: none;
+}
+.allergy-results {
+  color: white;
+  grid-row-gap: 1.2em;
+  padding: 1.2em 0;
 }
 
 @keyframes brandFadeIn {

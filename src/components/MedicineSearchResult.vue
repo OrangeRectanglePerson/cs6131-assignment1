@@ -77,8 +77,8 @@ defineProps({
 }
 
 .search_result_image {
-  max-height: 10em;
-  max-width: 15em;
+  max-height: 6em;
+  max-width: 9em;
   left: 0;
   margin: 0 2em 0 2em;
   grid-column: 2;
