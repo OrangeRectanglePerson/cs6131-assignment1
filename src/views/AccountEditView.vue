@@ -50,6 +50,7 @@ onBeforeMount(() => {
         },
     body: JSON.stringify({
       "userid" : acc_store.userid,
+      "requester_id" : acc_store.userid,
       "session_key" : acc_store.session_key,
     })
   })

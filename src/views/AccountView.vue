@@ -19,10 +19,10 @@ const _BASE_URL = import.meta.env.BASE_URL
     <p v-if="acc_store.signed_in" class="welcome">Welcome, {{ acc_store.username }}</p>
     <div class="account-cards" v-if="acc_store.signed_in">
       <AccountCard
-        :image="_BASE_URL + 'icons/heart.svg'"
-        title="Favourites"
-        to="/favourites"
-        description="View businesses you have saved as a Favourite"
+        :image="_BASE_URL + 'icons/square_book_icon.svg'"
+        title="Account Details"
+        :to="'/account_details?uid='+acc_store.userid"
+        description="View details of your account"
         footnote=""
         class="AccountCard"
       />
@@ -77,7 +77,7 @@ const _BASE_URL = import.meta.env.BASE_URL
         :image="_BASE_URL + 'icons/Radiation_warning_symbol.svg'"
         title="Launch the Nukes"
         to="/"
-        description="You know you wanna do it (not yet implemented)"
+        description="Luckily Unimplemented"
         footnote="Presidential Command"
         class="AccountCard"
       />

@@ -25,10 +25,10 @@ function sign_in(event: { preventDefault: () => void }) {
     acc_store.sign_in(username_input.value, password_input.value)
     .then((text : string) => {
       if(acc_store.signed_in){
-        if (redirect_after.value === 'business') {
+        if (redirect_after.value === 'account_details') {
           router.push({
             name: redirect_after.value,
-            query: { id: route.query.business_id?.toString() },
+            query: { uid: route.query.uid?.toString() },
           })
         } else {
           router.push({ name: redirect_after.value })
