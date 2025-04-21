@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import '@/assets/main.css'
 import MedicineSearchResult from '@/components/MedicineSearchResult.vue'
-import { useAccountStore } from '@/stores/account'
 import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
+import { useAccountStore } from '@/stores/account'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
@@ -25,7 +25,6 @@ nric = ref(''),
 dob = ref(''),
 place_of_residence = ref(''),
 allergies = ref([])
-
 
 onBeforeMount(() => {
   if(acc_store.signed_in && user_id === ""){
@@ -114,6 +113,7 @@ onBeforeMount(() => {
     })
   }
   else {
+    console.log("wow")
     console.log(user_id)
     fetch(`${BACKEND_URL}/get_account_details`, {
       method: "POST",

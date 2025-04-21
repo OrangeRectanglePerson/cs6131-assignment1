@@ -4,10 +4,10 @@ const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 export const useAccountStore = defineStore('account', {
   state: () => ({
     signed_in: false,
-    username: '',
-    userid: '',
-    session_key: '',
-    account_type: -1,
+    username: localStorage.getItem("username") === null ? "" : localStorage.getItem("username")!,
+    userid: localStorage.getItem("userid") === null ? "" : localStorage.getItem("userid")!,
+    session_key: localStorage.getItem("session_key") === null ? "" : localStorage.getItem("session_key")!,
+    account_type: localStorage.getItem("account_type") === null ? -1 : parseInt(localStorage.getItem("account_type")!),
     favourites: [] as string[],
   }),
   actions: {

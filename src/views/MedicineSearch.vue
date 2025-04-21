@@ -38,9 +38,9 @@ function search_btn(event: { preventDefault: () => void }) {
   router.push({
     name: 'medicine_search',
     query: {
-      "search_query" : search_query.value ,
-      "no_stock_filter" : no_stock_filter.value,
-      "in_stock_filter" : in_stock_filter.value
+      search_query : search_query.value ,
+      no_stock_filter : no_stock_filter.value.toString(),
+      in_stock_filter : in_stock_filter.value.toString()
     }
   })
   new_search()
