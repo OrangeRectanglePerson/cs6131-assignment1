@@ -13,7 +13,7 @@ defineProps({
       class="search_result_image"
     />
     <div style="display: grid; width: 100%">
-      <RouterLink class="name" :to="'/medicine?id=' + name">{{
+      <RouterLink class="name" :to="'/medicine?id=' + id">{{
         name
       }}</RouterLink>
       <div class="details">

@@ -57,7 +57,8 @@ function new_search() {
       "num_results" : 20,
       "no_stock" : no_stock_filter.value,
       "in_stock" : in_stock_filter.value,
-      "search_text": search_query.value
+      "search_text": search_query.value,
+      "specific_id" : null
     }),
     headers: {
         "Content-type": "application/json; charset=UTF-8"
