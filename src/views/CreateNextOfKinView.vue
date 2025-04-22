@@ -68,6 +68,10 @@ onBeforeMount(() => {
 function create_account(event: { preventDefault: () => void }) {
   alertText.value = ''
   event.preventDefault()
+  if(nok_name.value === "" || nok_contact.value === "" || nok_relation.value === "" || patient.value.code === ""){
+    alertText.value = "Please fill in all fields."
+    return
+  }
   return fetch(`${BACKEND_URL}/edit_next_of_kin`, {
         method: "POST",
         body: JSON.stringify({
@@ -108,7 +112,7 @@ function create_account(event: { preventDefault: () => void }) {
     <TopRightLogo/>
 
     <h1 class="not-staff" v-if="!acc_store.signed_in">Sign in create new next of kin.</h1>
-    <form role="form" v-on:submit="create_account" v-else-if="acc_store.userid[0]==='S'">
+    <form role="form" v-on:submit="create_account" v-else>
       <label for="account_type">Patient:</label>
       <v-select class="selector" id="name" :options="list_of_patients" v-model="patient"></v-select>
       <label for="name">Name:</label>
@@ -121,9 +125,8 @@ function create_account(event: { preventDefault: () => void }) {
         {{ alertText }}
       </p>
       <div v-else class="p"></div>
-      <button class="btn" type="submit">Create Account</button>
+      <button class="btn" type="submit">Add Next of Kin</button>
     </form>
-    <h1 class="not-staff" v-else>Only staff can create new accounts</h1>
 
   </main>
 </template>
