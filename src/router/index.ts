@@ -101,8 +101,13 @@ const router = createRouter({
       component: () => import('@/views/FacilityDetailsView.vue'),
     },
     {
+      path: '/treatment_search',
+      name: 'treatment_search',
+      component: () => import('@/views/TreatmentSearch.vue'),
+    },
+    {
       path: '/treatment',
-      name: 'faciltreatmentity',
+      name: 'treatment',
       component: () => import('@/views/TreatmentDetailsView.vue'),
     },
   ],
