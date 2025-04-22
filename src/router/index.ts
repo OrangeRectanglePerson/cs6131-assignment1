@@ -23,22 +23,22 @@ const router = createRouter({
     {
       path: '/search',
       name: 'search',
-      component: () => import('@/views/SearchView.vue'),
+      component: () => import('@/views/deprecated/SearchView.vue'),
     },
     {
       path: '/business',
       name: 'business',
-      component: () => import('@/views/BusinessView.vue'),
+      component: () => import('@/views/deprecated/BusinessView.vue'),
     },
     {
       path: '/sign_in',
       name: 'sign_in',
-      component: () => import('@/views/SignInView.vue'),
+      component: () => import('@/views/forms/SignInView.vue'),
     },
     {
       path: '/create_account',
       name: 'create_account',
-      component: () => import('@/views/CreateAccountView.vue'),
+      component: () => import('@/views/forms/CreateAccountView.vue'),
     },
     {
       path: '/account',
@@ -48,72 +48,72 @@ const router = createRouter({
     {
       path: '/account_details',
       name: 'account_details',
-      component: () => import('@/views/AccountDetailsView.vue'),
+      component: () => import('@/views/details_pages/AccountDetailsView.vue'),
     },
     {
       path: '/account_editor',
       name: 'account_editor',
-      component: () => import('@/views/AccountEditView.vue'),
+      component: () => import('@/views/forms/AccountEditView.vue'),
     },
     {
       path: '/edit_nok',
       name: 'edit_nok',
-      component: () => import('@/views/CreateNextOfKinView.vue'),
+      component: () => import('@/views/forms/CreateNextOfKinView.vue'),
     },
     {
       path: '/staff_edit_department',
       name: 'staff_edit_department',
-      component: () => import('@/views/StaffChangeDepartment.vue'),
+      component: () => import('@/views/forms/StaffChangeDepartment.vue'),
     },
     {
       path: '/favourites',
       name: 'favourites',
-      component: () => import('@/views/FavouritesView.vue'),
+      component: () => import('@/views/deprecated/FavouritesView.vue'),
     },
     {
       path: '/business_editor_search',
       name: 'business_editor_search',
-      component: () => import('@/views/EditBusinessSearchView.vue'),
+      component: () => import('@/views/deprecated/EditBusinessSearchView.vue'),
     },
     {
       path: '/business_editor',
       name: 'business_editor',
-      component: () => import('@/views/EditBusinessView.vue'),
+      component: () => import('@/views/deprecated/EditBusinessView.vue'),
     },
     {
       path: '/doctor_search',
       name: 'doctor_search',
-      component: () => import('@/views/DoctorSearch.vue'),
+      component: () => import('@/views/search_pages/DoctorSearch.vue'),
     },
     {
       path: '/medicine_search',
       name: 'medicine_search',
-      component: () => import('@/views/MedicineSearch.vue'),
+      component: () => import('@/views/search_pages/MedicineSearch.vue'),
     },
     {
       path: '/medicine',
       name: 'medicine',
-      component: () => import('@/views/MedicineDetailsView.vue'),
+      component: () => import('@/views/details_pages/MedicineDetailsView.vue'),
     },
     {
       path: '/facility_search',
       name: 'facility_search',
-      component: () => import('@/views/FacilitySearch.vue'),
+      component: () => import('@/views/search_pages/FacilitySearch.vue'),
     },
     {
       path: '/facility',
       name: 'facility',
-      component: () => import('@/views/FacilityDetailsView.vue'),
+      component: () => import('@/views/details_pages/FacilityDetailsView.vue'),
     },
     {
       path: '/treatment_search',
       name: 'treatment_search',
-      component: () => import('@/views/TreatmentSearch.vue'),
+      component: () => import('@/views/search_pages/TreatmentSearch.vue'),
     },
     {
       path: '/treatment',
       name: 'treatment',
-      component: () => import('@/views/TreatmentDetailsView.vue'),
+      component: () => import('@/views/details_pages/TreatmentDetailsView.vue'),
     },
   ],
 })
