@@ -58,7 +58,7 @@ const router = createRouter({
     {
       path: '/edit_nok',
       name: 'edit_nok',
-      component: () => import('@/views/forms/CreateNextOfKinView.vue'),
+      component: () => import('@/views/forms/EditNextOfKinView.vue'),
     },
     {
       path: '/staff_edit_department',
