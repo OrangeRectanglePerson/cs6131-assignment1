@@ -5,6 +5,7 @@ import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
 import { useAccountStore } from '@/stores/account'
+import DiagnosesSearchResult from '@/components/DiagnosesSearchResult.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
@@ -24,7 +25,8 @@ specialises_in = ref(''),
 nric = ref(''),
 dob = ref(''),
 place_of_residence = ref(''),
-allergies = ref([])
+allergies = ref([]),
+diagnoses = ref([])
 
 onBeforeMount(() => {
   if(acc_store.signed_in && user_id === ""){
@@ -58,33 +60,6 @@ onBeforeMount(() => {
           nric.value = data_tuple[1]
           place_of_residence.value = data_tuple[5]
           dob.value = data_tuple [2]
-          // get allergies
-          fetch(`${BACKEND_URL}/get_patient_allergies`, {
-            method: "POST",
-            headers: {
-                    "Content-type": "application/json; charset=UTF-8"
-                },
-            body: JSON.stringify({
-              "requester_id" : acc_store.userid,
-              "session_key" : acc_store.session_key,
-              "patient_id" : user_id,
-              "medicine_id" : null,
-              "medicine_details" : true
-            })
-          })
-          .then((response) => {
-            if(!response.ok) return Promise.reject(response)
-            else return response.text()
-          })
-          .then((json_text : string) => {
-            const json_response = JSON.parse(json_text)
-            if(json_response["request_success"]) {
-              allergies.value = json_response["list"]
-            }
-          })
-          .catch(error => {
-              console.log(error)
-          })
         }
         if(acc_type.value > 0){
           name.value = data_tuple[1]
@@ -103,6 +78,15 @@ onBeforeMount(() => {
             specialises_in.value = data_tuple[8]
           }
         }
+        if(user_id[0] === 'P'){
+          // get allergies
+          // then diagnoses
+          getAllergies(() => getDiagnoses())
+        }
+        if(user_id[0] === 'S'){
+          //get diagnoses
+          getDiagnoses()
+        }
       }
       else{
         acc_type.value = -1
@@ -113,8 +97,7 @@ onBeforeMount(() => {
     })
   }
   else {
-    console.log("wow")
-    console.log(user_id)
+    // cross-account display
     fetch(`${BACKEND_URL}/get_account_details`, {
       method: "POST",
       headers: {
@@ -161,6 +144,15 @@ onBeforeMount(() => {
             specialises_in.value = data_tuple[8]
           }
         }
+        if(user_id[0] === 'P'){
+          // get allergies
+          // then diagnoses
+          getAllergies(() => getDiagnoses())
+        }
+        if(user_id[0] === 'S' && acc_store.account_type > 0){
+          //get diagnoses
+          getDiagnoses()
+        }
       }
       else{
         acc_type.value = -1
@@ -171,6 +163,71 @@ onBeforeMount(() => {
     })
   }
 })
+
+
+function getAllergies(when_done? : () => void | undefined){
+  fetch(`${BACKEND_URL}/get_patient_allergies`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : user_id,
+      "medicine_id" : null,
+      "medicine_details" : true
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    if(json_response["request_success"]) {
+      allergies.value = json_response["list"]
+    }
+    if (when_done !== undefined){
+      when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
+
+function getDiagnoses(when_done? : () => void | undefined){
+  fetch(`${BACKEND_URL}/get_patient_diagnoses`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : user_id[0] === 'P' ? user_id : "",
+      "disease_id" : "",
+      "doctor_id" : user_id[0] === 'S' ? user_id : ""
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    if(json_response["request_success"]) {
+      diagnoses.value = json_response["list"]
+    }
+    if (when_done !== undefined){
+      when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
 
 </script>
 
@@ -253,6 +310,26 @@ onBeforeMount(() => {
             :name="allergy[2]"
             :id="allergy[1]"
             :quantity="allergy[3]"
+            class="allergy-results"
+          />
+        </li>
+      </div>
+
+      <h4 v-if="diagnoses.length > 0">Diagnoses:</h4>
+      <div
+        class="allergy-results-list-container"
+        v-if="diagnoses.length > 0"
+        ref="allergy_results_list_container"
+      >
+        <li v-for="d in diagnoses" :key="d">
+          <DiagnosesSearchResult
+            :date="d[3]"
+            :patient_id="d[0]"
+            :disease_id="d[1]"
+            :doctor_id="d[2]"
+            :patient_name="d[5]"
+            :disease_name="d[6]"
+            :doctor_name="d[4]"
             class="allergy-results"
           />
         </li>
@@ -365,7 +442,6 @@ onBeforeMount(() => {
 .allergy-results {
   color: white;
   grid-row-gap: 1.2em;
-  padding: 1.2em 0;
 }
 
 @keyframes brandFadeIn {
