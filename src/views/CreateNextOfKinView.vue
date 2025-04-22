@@ -117,8 +117,8 @@ function create_account(event: { preventDefault: () => void }) {
       <v-select class="selector" id="name" :options="list_of_patients" v-model="patient"></v-select>
       <label for="name">Name:</label>
       <input id="name" type="text" placeholder="Name" v-model="nok_name" />
-      <label for="c_no">Relationship:</label>
-      <input id="c_no" type="text" placeholder="Contact Number" v-model="nok_relation" />
+      <label for="c_rel">Relationship:</label>
+      <input id="c_rel" type="text" placeholder="Relationship" v-model="nok_relation" />
       <label for="c_no">Contact Number:</label>
       <input id="c_no" type="text" placeholder="Contact Number" v-model="nok_contact" />
       <p v-if="alertText !== ''">
