@@ -56,10 +56,7 @@ defineProps({
   transition: all 0.3s;
   text-underline-offset: 0.1em;
 }
-.name:hover {
-  background-color: rgb(var(--color-main-2));
-  text-underline-offset: 0.25em;
-}
+
 .details {
   display: flex;
   padding: 0 1em 0 2em;
