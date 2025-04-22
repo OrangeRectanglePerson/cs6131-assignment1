@@ -90,6 +90,21 @@ const router = createRouter({
       name: 'medicine',
       component: () => import('@/views/MedicineDetailsView.vue'),
     },
+    {
+      path: '/facility_search',
+      name: 'facility_search',
+      component: () => import('@/views/FacilitySearch.vue'),
+    },
+    {
+      path: '/facility',
+      name: 'facility',
+      component: () => import('@/views/FacilityDetailsView.vue'),
+    },
+    {
+      path: '/treatment',
+      name: 'faciltreatmentity',
+      component: () => import('@/views/TreatmentDetailsView.vue'),
+    },
   ],
 })
 

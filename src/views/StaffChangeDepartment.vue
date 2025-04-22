@@ -24,7 +24,8 @@ onBeforeMount(() => {
     body: JSON.stringify({
       "start_from" : 0,
       "num_results" : 999,
-      "search_text" : "%"
+      "search_text" : "%",
+      "exact_match" : false
     })
   })
   .then((response) => {
