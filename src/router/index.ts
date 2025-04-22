@@ -56,6 +56,11 @@ const router = createRouter({
       component: () => import('@/views/AccountEditView.vue'),
     },
     {
+      path: '/edit_nok',
+      name: 'edit_nok',
+      component: () => import('@/views/CreateNextOfKinView.vue'),
+    },
+    {
       path: '/staff_edit_department',
       name: 'staff_edit_department',
       component: () => import('@/views/StaffChangeDepartment.vue'),

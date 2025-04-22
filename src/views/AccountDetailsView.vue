@@ -6,6 +6,7 @@ import { useRoute } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
 import { useAccountStore } from '@/stores/account'
 import DiagnosesSearchResult from '@/components/DiagnosesSearchResult.vue'
+import NextOfKinCard from '@/components/NextOfKinCard.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
@@ -26,7 +27,8 @@ nric = ref(''),
 dob = ref(''),
 place_of_residence = ref(''),
 allergies = ref([]),
-diagnoses = ref([])
+diagnoses = ref([]),
+nok_list = ref([])
 
 onBeforeMount(() => {
   if(acc_store.signed_in && user_id === ""){
@@ -81,7 +83,7 @@ onBeforeMount(() => {
         if(user_id[0] === 'P'){
           // get allergies
           // then diagnoses
-          getAllergies(() => getDiagnoses())
+          getAllergies(() => getDiagnoses(() => getNextOfKin()))
         }
         if(user_id[0] === 'S'){
           //get diagnoses
@@ -147,7 +149,7 @@ onBeforeMount(() => {
         if(user_id[0] === 'P'){
           // get allergies
           // then diagnoses
-          getAllergies(() => getDiagnoses())
+          getAllergies(() => getDiagnoses(() => getNextOfKin()))
         }
         if(user_id[0] === 'S' && acc_store.account_type > 0){
           //get diagnoses
@@ -229,6 +231,36 @@ function getDiagnoses(when_done? : () => void | undefined){
   })
 }
 
+function getNextOfKin(when_done? : () => void | undefined){
+  fetch(`${BACKEND_URL}/get_next_of_kin`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : user_id,
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    if(json_response["request_success"]) {
+      nok_list.value = json_response["list"]
+    }
+    if (when_done !== undefined){
+      when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
+
 </script>
 
 <template>
@@ -298,11 +330,10 @@ function getDiagnoses(when_done? : () => void | undefined){
         </p>
       </div>
 
-
-      <h4 v-if="allergies.length > 0">Allergies:</h4>
+      <h4 v-if="user_id[0]==='P'">Allergies:</h4>
       <div
         class="allergy-results-list-container"
-        v-if="allergies.length > 0"
+        v-if="user_id[0]==='P' && allergies.length > 0"
         ref="allergy_results_list_container"
       >
         <li v-for="allergy in allergies" :key="allergy">
@@ -314,8 +345,26 @@ function getDiagnoses(when_done? : () => void | undefined){
           />
         </li>
       </div>
+      <h5 v-else-if="user_id[0]==='P'" class="allergy-results-list-container">No Allergies</h5>
 
-      <h4 v-if="diagnoses.length > 0">Diagnoses:</h4>
+      <h4 v-if="user_id[0]==='P'">Next of Kin:</h4>
+      <div
+        class="allergy-results-list-container"
+        v-if="user_id[0]==='P' && nok_list.length > 0"
+        ref="allergy_results_list_container"
+      >
+        <li v-for="n in nok_list" :key="n">
+          <NextOfKinCard
+            :name="n[1]"
+            :relationship="n[2]"
+            :contact_num="n[3]"
+            class="allergy-results"
+          />
+        </li>
+      </div>
+      <h5 v-else-if="user_id[0]==='P'" class="allergy-results-list-container">No Next Of Kin</h5>
+
+      <h4>Diagnoses:</h4>
       <div
         class="allergy-results-list-container"
         v-if="diagnoses.length > 0"
@@ -334,6 +383,7 @@ function getDiagnoses(when_done? : () => void | undefined){
           />
         </li>
       </div>
+      <h5 v-else class="allergy-results-list-container">No Diagnoses</h5>
 
     </div>
   </main>

@@ -42,11 +42,10 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
-        :image="_BASE_URL + 'icons/pen.svg'"
-        title="Edit Entries"
-        to="/business_editor_search"
-        description="Edit database entries"
-        footnote="Admin Command"
+        :image="_BASE_URL + 'icons/user-pen.svg'"
+        title="Add/Edit Next Of Kin"
+        to="/edit_nok"
+        description="Add/Edit Next Of Kin"
         class="AccountCard"
       />
       <AccountCard
