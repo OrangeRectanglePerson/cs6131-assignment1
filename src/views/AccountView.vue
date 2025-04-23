@@ -38,7 +38,7 @@ const _BASE_URL = import.meta.env.BASE_URL
         title="Change Departments"
         to="/staff_edit_department"
         description="Change department"
-        footnote=""
+        footnote="Staff Command"
         class="AccountCard"
       />
       <AccountCard
@@ -54,7 +54,15 @@ const _BASE_URL = import.meta.env.BASE_URL
         title="Create an account"
         to="/create_account"
         description="Add an account"
-        footnote="Moderator Command"
+        footnote="Staff Command"
+        class="AccountCard"
+      />
+      <AccountCard
+        :image="_BASE_URL + 'icons/pen.svg'"
+        title="Edit Medication Database"
+        to="/edit_medicine"
+        description="Add, Dispense, Restock, or Delete Medicine from the database."
+        footnote="Staff Command"
         class="AccountCard"
       />
       <AccountCard

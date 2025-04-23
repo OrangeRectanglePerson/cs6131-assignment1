@@ -8,7 +8,7 @@ defineProps({
 <template>
   <div class="search-result-container">
     <img
-      src="https://upload.wikimedia.org/wikipedia/commons/5/55/Hieronymus_Bosch_053_detail.jpg"
+      src="https://ih1.redbubble.net/image.5414031322.4195/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
       class="search_result_image"
     />
     <div style="display: grid; width: 100%">

@@ -54,7 +54,7 @@ function new_search() {
     method: "POST",
     body: JSON.stringify({
       "start_from" : 0,
-      "num_results" : 20,
+      "num_results" : 999,
       "no_stock" : no_stock_filter.value,
       "in_stock" : in_stock_filter.value,
       "search_text": search_query.value,

@@ -96,6 +96,11 @@ const router = createRouter({
       component: () => import('@/views/details_pages/MedicineDetailsView.vue'),
     },
     {
+      path: '/edit_medicine',
+      name: 'edit_medicine',
+      component: () => import('@/views/forms/EditMedicineView.vue'),
+    },
+    {
       path: '/facility_search',
       name: 'facility_search',
       component: () => import('@/views/search_pages/FacilitySearch.vue'),

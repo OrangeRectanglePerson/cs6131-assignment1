@@ -147,7 +147,7 @@ function get_nok(when_done? : () => void | undefined){
     } else {
       console.log(json_response["text"])
     }
-    if(when_done !== when_done) when_done()
+    if(when_done !== undefined) when_done()
   })
   .catch(error => {
       console.log(error)
