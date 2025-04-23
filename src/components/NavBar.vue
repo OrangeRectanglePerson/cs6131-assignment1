@@ -1,22 +1,15 @@
 <script setup lang="ts">
-import { ref } from 'vue'
-import { RouterLink, useRoute, useRouter } from 'vue-router'
+import { RouterLink, useRoute } from 'vue-router'
 import '@/assets/base.css'
 import { useAccountStore } from '@/stores/account'
 
 const acc_store = useAccountStore()
 
-const router = useRouter()
 const route = useRoute()
-const search_query = ref('')
 const NAVVAR_ICON_CSS = "url('" + import.meta.env.BASE_URL + "icons/Menu_button.svg')"
 
 function sign_out() {
   acc_store.sign_out()
-}
-function search(event: { preventDefault: () => void }) {
-  event.preventDefault()
-  router.push({ name: 'search', query: { search_query: search_query.value } })
 }
 </script>
 
@@ -102,16 +95,6 @@ function search(event: { preventDefault: () => void }) {
               <p v-show="route.name === 'about'">you are here</p>
             </li>
           </ul>
-          <form class="d-flex mt-3" role="search" v-on:submit="search">
-            <input
-              class="form-control me-2"
-              type="search"
-              placeholder="Search"
-              aria-label="Search"
-              v-model="search_query"
-            />
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
         </div>
       </div>
     </div>

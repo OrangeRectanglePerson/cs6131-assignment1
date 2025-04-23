@@ -1,17 +1,9 @@
 <script setup lang="ts">
 import '@/assets/main.css'
-import { ref } from 'vue'
 import { useAccountStore } from '@/stores/account'
-import { RouterLink, useRouter } from 'vue-router'
+import { RouterLink } from 'vue-router'
 
 const acc_store = useAccountStore()
-const search_query = ref('')
-const router = useRouter()
-
-function search(event: { preventDefault: () => void }) {
-  event.preventDefault()
-  router.push({ name: 'search', query: { search_query: search_query.value } })
-}
 
 defineProps({
   force_name: {
@@ -36,16 +28,6 @@ defineProps({
     </p>
     <p v-else-if="force_name !== undefined">Welcome, {{ force_name }} (Forced Welcome. You are not signed in.)</p>
     <p v-else>To force a welcome message to appear, use route <span style="font-family: monospace;">/welcome/&lt;name&gt;</span></p>
-    <form class="d-flex searchbar" role="search" v-on:submit="search">
-      <input
-        class="form-control me-2"
-        type="search"
-        placeholder="Search"
-        aria-label="Search"
-        v-model="search_query"
-      />
-      <button class="btn btn-outline-success" type="submit">Search</button>
-    </form>
   </main>
 </template>
 
