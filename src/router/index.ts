@@ -21,16 +21,6 @@ const router = createRouter({
       component: () => import('@/views/AboutView.vue'),
     },
     {
-      path: '/search',
-      name: 'search',
-      component: () => import('@/views/deprecated/SearchView.vue'),
-    },
-    {
-      path: '/business',
-      name: 'business',
-      component: () => import('@/views/deprecated/BusinessView.vue'),
-    },
-    {
       path: '/sign_in',
       name: 'sign_in',
       component: () => import('@/views/forms/SignInView.vue'),
@@ -69,21 +59,6 @@ const router = createRouter({
       path: '/edit_specialisation',
       name: 'edit_specialisation',
       component: () => import('@/views/forms/EditSpecialisation.vue'),
-    },
-    {
-      path: '/favourites',
-      name: 'favourites',
-      component: () => import('@/views/deprecated/FavouritesView.vue'),
-    },
-    {
-      path: '/business_editor_search',
-      name: 'business_editor_search',
-      component: () => import('@/views/deprecated/EditBusinessSearchView.vue'),
-    },
-    {
-      path: '/business_editor',
-      name: 'business_editor',
-      component: () => import('@/views/deprecated/EditBusinessView.vue'),
     },
     {
       path: '/doctor_search',
