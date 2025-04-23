@@ -88,6 +88,7 @@ function create_account(event: { preventDefault: () => void }) {
 
     <h1 class="not-staff" v-if="!acc_store.signed_in">Sign in as staff to create new account.</h1>
     <form role="form" v-on:submit="create_account" v-else-if="acc_store.userid[0]==='S'">
+      <h2>Account Creation Form</h2>
       <label for="account_type">Account Type:</label>
       <select name="account_type" id="account_type" v-model="acc_type">
         <option value=0>Patient</option>
@@ -152,6 +153,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

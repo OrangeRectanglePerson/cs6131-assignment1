@@ -115,6 +115,7 @@ function onsubmit(event: { preventDefault: () => void }){
     <h1 class="not-staff" v-if="!acc_store.signed_in">Please sign in.</h1>
     <h1 class="not-staff" v-else-if="acc_store.account_type !== 3">Only Pharmacists are allowed to do this.</h1>
     <form role="form" v-on:submit="onsubmit" v-else>
+      <h2>Medicine Database Editor</h2>
       <div class="formselector">
         <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="get_medicine()" checked/>
         <label for="add">Add </label>
@@ -167,6 +168,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

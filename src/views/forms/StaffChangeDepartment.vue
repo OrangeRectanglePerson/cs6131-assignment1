@@ -88,7 +88,7 @@ function edit_account(event: { preventDefault: () => void }) {
 
     <h1 class="not-staff" v-if="!acc_store.signed_in">Sign in as staff to create new account.</h1>
     <form role="form" v-on:submit="edit_account" v-else-if="acc_store.userid[0]==='S'">
-      <!-- Common -->
+      <h2>Staff Department Form</h2>
       <label for="name">Employee to edit:</label>
       <v-select class="selector" id="name" :options="[{label : acc_store.username, code : acc_store.userid}]" v-model="edited_id"></v-select>
       <label for="department">Department:</label>
@@ -116,6 +116,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

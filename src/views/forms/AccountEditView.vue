@@ -161,6 +161,7 @@ function edit_account(event: { preventDefault: () => void }) {
     <h1 class="not-staff" v-if="pw_changed">Your account's password was changed.</h1>
     <h1 class="not-staff" v-if="!acc_store.signed_in || acc_type<0">Sign in to edit your account.</h1>
     <form role="form" v-on:submit="edit_account" v-else>
+      <h2>Account Editing Form</h2>
       <!-- Common -->
       <label for="name">Name:</label>
       <input id="name" type="text" :placeholder="old_acc_name" v-model="new_acc_name" />
@@ -218,6 +219,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

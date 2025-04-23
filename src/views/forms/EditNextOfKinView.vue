@@ -184,6 +184,7 @@ function patient_change(){
 
     <h1 class="not-staff" v-if="!acc_store.signed_in">Sign in create new next of kin.</h1>
     <form role="form" v-on:submit="edit_nok" v-else>
+      <h2>Next of Kin Form</h2>
       <div class="formselector">
         <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change" checked/>
         <label for="add">Add </label>
@@ -233,6 +234,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

@@ -128,6 +128,7 @@ function change_treatment(){
       Only doctors and specialists are allowed to do this.
     </h1>
     <form role="form" v-on:submit="onsubmit" v-else>
+      <h2>Treatment Database Form</h2>
       <div class="formselector">
         <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change" checked/>
         <label for="add">Add </label>
@@ -168,6 +169,10 @@ main {
   display: flex;
   flex-direction: column;
   overflow-y: scroll;
+}
+
+h2{
+  text-align: center;
 }
 
 form {

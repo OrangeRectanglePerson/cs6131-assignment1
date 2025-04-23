@@ -49,6 +49,7 @@ function sign_in(event: { preventDefault: () => void }) {
       System
     </h1>
     <form role="form" v-on:submit="sign_in">
+      <h2>Sign In Form</h2>
       <label for="username">Patient/Staff ID:</label>
       <input id="username" type="text" placeholder="Patient/Staff ID" v-model="username_input" />
       <label for="password">Password:</label>
@@ -87,6 +88,10 @@ main {
   animation: brandFadeIn 1s ease-out 0s normal forwards !important;
   height: fit-content;
   font-family: 'Michroma', 'Jura', sans-serif;
+}
+
+h2{
+  text-align: center;
 }
 
 form {
