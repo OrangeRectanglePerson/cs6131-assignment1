@@ -85,7 +85,7 @@ onBeforeMount(() => {
       <p class="name-field">{{ name }}</p>
 
       <img
-        src="https://upload.wikimedia.org/wikipedia/commons/6/61/Ljungris_July_2013.jpg"
+        src="https://upload.wikimedia.org/wikipedia/commons/5/55/Hieronymus_Bosch_053_detail.jpg"
         class="user-image"
       />
 

@@ -123,7 +123,7 @@ function toggleAllergy(){
       <p class="name-field">{{ name }}</p>
 
       <img
-        src="https://upload.wikimedia.org/wikipedia/commons/2/2e/Vicodin5mgcropped.jpg"
+        src="https://ih1.redbubble.net/image.5414031322.4195/bg,f8f8f8-flat,750x,075,f-pad,750x1000,f8f8f8.jpg"
         class="user-image"
       />
 

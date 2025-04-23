@@ -66,6 +66,11 @@ const router = createRouter({
       component: () => import('@/views/forms/StaffChangeDepartment.vue'),
     },
     {
+      path: '/edit_specialisation',
+      name: 'edit_specialisation',
+      component: () => import('@/views/forms/EditSpecialisation.vue'),
+    },
+    {
       path: '/favourites',
       name: 'favourites',
       component: () => import('@/views/deprecated/FavouritesView.vue'),

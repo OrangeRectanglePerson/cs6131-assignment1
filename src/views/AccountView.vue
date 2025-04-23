@@ -42,6 +42,14 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
+        v-if="acc_store.account_type === 2"
+        title="Change Specialisation"
+        to="/edit_specialisation"
+        description="Change specialisation"
+        footnote="Specialist Command"
+        class="AccountCard"
+      />
+      <AccountCard
         :image="_BASE_URL + 'icons/user-pen.svg'"
         title="Add/Edit Next Of Kin"
         to="/edit_nok"
@@ -66,7 +74,6 @@ const _BASE_URL = import.meta.env.BASE_URL
         footnote="Staff Command"
         class="AccountCard"
       />
-
       <AccountCard
         v-if="acc_store.account_type === 1 || acc_store.account_type === 2"
         :image="_BASE_URL + 'icons/pen.svg'"

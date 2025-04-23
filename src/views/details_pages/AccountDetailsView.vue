@@ -364,10 +364,10 @@ function getNextOfKin(when_done? : () => void | undefined){
       </div>
       <h5 v-else-if="user_id[0]==='P'" class="allergy-results-list-container">No Next Of Kin</h5>
 
-      <h4>Diagnoses:</h4>
+      <h4 v-if="acc_type === 1">Diagnoses:</h4>
       <div
         class="allergy-results-list-container"
-        v-if="diagnoses.length > 0"
+        v-if="acc_type === 1 && diagnoses.length > 0"
         ref="allergy_results_list_container"
       >
         <li v-for="d in diagnoses" :key="d">
@@ -383,7 +383,7 @@ function getNextOfKin(when_done? : () => void | undefined){
           />
         </li>
       </div>
-      <h5 v-else class="allergy-results-list-container">No Diagnoses</h5>
+      <h5 v-else-if="acc_type === 1" class="allergy-results-list-container">No Diagnoses</h5>
 
     </div>
   </main>
