@@ -75,6 +75,14 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
+        :image="_BASE_URL + 'icons/pen.svg'"
+        title="Appointment Form"
+        to="/edit_appointments"
+        description="Add, Edit, or Delete Appointment."
+        footnote="Command"
+        class="AccountCard"
+      />
+      <AccountCard
         v-if="acc_store.account_type === 3"
         :image="_BASE_URL + 'icons/pen.svg'"
         title="Edit Medication Database"

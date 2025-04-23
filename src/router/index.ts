@@ -125,6 +125,16 @@ const router = createRouter({
       name: 'edit_prescription',
       component: () => import('@/views/forms/EditPrescriptionView.vue'),
     },
+    {
+      path: '/appointment',
+      name: 'appointment',
+      component: () => import('@/views/details_pages/AppointmentDetailsView.vue'),
+    },
+    {
+      path: '/edit_appointments',
+      name: 'edit_appointments',
+      component: () => import('@/views/forms/EditAppointmentView.vue'),
+    },
   ],
 })
 

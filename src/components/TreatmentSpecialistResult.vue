@@ -1,32 +1,26 @@
 <script setup lang="ts">
 defineProps({
-  consultation_id: String,
-  doctor_name: String,
-  patient_name: String,
-  facility_name: String,
-  date_time: String
+  name: String,
+  specialist_id: String,
+  specialist_name: String,
 })
 </script>
 
 <template>
   <div class="search-result-container">
-    <div style="display: grid; width: 100%; row-gap: .5em;">
-      <RouterLink class="name" :to="'/appointment?id=' + consultation_id">
-        Appointment #{{consultation_id}} @ {{ date_time }}
-      </RouterLink>
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/5/55/Hieronymus_Bosch_053_detail.jpg"
+      class="search_result_image"
+    />
+    <div style="display: grid; width: 100%; row-gap: 1em;">
+      <RouterLink class="name" :to="'/treatment?id=' + name">{{
+        name
+      }}</RouterLink>
       <div class="details">
-        <p class="address">
-          <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Doctor: {{ doctor_name }}
-        </p>
-        <p class="website">
-          <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Patient: {{ patient_name }}
-        </p>
-        <p class="phone_number">
-          <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Facility: {{ facility_name }}
-        </p>
+        <img src="./icons/square_book_icon.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
+        <RouterLink class="address" :to="'/account_details?id=S' + specialist_id">
+          {{ specialist_name }}
+        </RouterLink>
       </div>
     </div>
   </div>
@@ -39,7 +33,7 @@ defineProps({
   border: solid;
   border-width: 1px 0;
   border-image: linear-gradient(to right, transparent 0%, white 10% 90%, transparent 100%) 1;
-  grid-row-gap: .5em;
+  grid-row-gap: 1em;
   padding: 1em 0;
 }
 
@@ -48,9 +42,8 @@ defineProps({
   margin: 0;
   font-weight: 400;
   font-size: 1.25em;
-  width: fit-content;
-  line-height: 1.5;
-  text-align: start;
+  line-height: 1;
+  max-width: 50%;
   overflow: hidden;
   text-overflow: ellipsis;
   border-radius: 0.2em;
@@ -64,24 +57,27 @@ defineProps({
   text-underline-offset: 0.25em;
 }
 .details {
-  display: flex;
+  display: inline;
   padding: 0 1em 0 2em;
-  flex-direction: column;
+  flex-direction: row;
 }
-.details > p {
+.details > a {
   margin: 0;
   font-weight: 400;
   max-width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: start;
-  margin-top: auto;
-  margin-bottom: auto;
+  margin: 0;
+}
+.details > a:hover {
+  background-color: rgb(var(--color-main-2));
+  text-underline-offset: 0.25em;
 }
 
 .search_result_image {
-  max-height: 10em;
-  max-width: 15em;
+  max-height: 6em;
+  max-width: 9em;
   left: 0;
   margin: 0 2em 0 2em;
   grid-column: 2;
