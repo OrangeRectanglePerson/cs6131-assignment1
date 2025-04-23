@@ -12,12 +12,12 @@ const acc_store = useAccountStore()
 
 //universal
 const form_type = ref(0)
-const id = ref(-1)
-const name = ref("")
-const quantity = ref(0)
-const medicine = ref({code : "", label : ""})
+const list_of_treatments = ref([{label : "", description : ""}])
 
-const list_of_medicine = ref([{code : "", label : ""}])
+const treatment = ref({label : "", description : ""})
+const description = ref("")
+
+let old_treatment_name = ""
 
 const alertText = ref('')
 
@@ -25,24 +25,22 @@ onBeforeMount(() => {
   if(!acc_store.signed_in || acc_store.account_type < 1){
     return
   }
-  get_medicine()
+  get_treatments()
 })
 
-function edit_medicine(when_done? : (() => void) | undefined) {
+function edit_treatment(when_done? : (() => void) | undefined) {
   alertText.value = ''
   let mode = ""
-  if(form_type.value === 3) mode = "delete"
-  else if(form_type.value === 2) mode = "dispense"
-  else if (form_type.value === 1) mode = "restock"
+  if(form_type.value === 2) mode = "delete"
+  else if(form_type.value === 1) mode = "update"
   else mode = "add"
-  return fetch(`${BACKEND_URL}/edit_medicine`, {
+  return fetch(`${BACKEND_URL}/edit_treatment`, {
     method: "POST",
     body: JSON.stringify({
       "userid" : acc_store.userid,
       "session_key" : acc_store.session_key,
-      "medicine_id" : mode==="add" ? id.value : medicine.value.code,
-      "name" : name.value,
-      "quantity" : quantity.value,
+      "name" : treatment.value.label,
+      "description" : description.value,
       "mode" : mode
     }),
     headers: {
@@ -63,18 +61,15 @@ function edit_medicine(when_done? : (() => void) | undefined) {
   })
 }
 
-function get_medicine(when_done? : (() => void) | undefined){
-  list_of_medicine.value = []
-  medicine.value = {code : "", label : ""}
-  fetch(`${BACKEND_URL}/get_medicine`, {
+function get_treatments(when_done? : (() => void) | undefined){
+  list_of_treatments.value = []
+  treatment.value = {label : "", description : ""}
+  fetch(`${BACKEND_URL}/get_treatments`, {
     method: "POST",
     body: JSON.stringify({
       "start_from" : 0,
       "num_results" : 999,
-      "no_stock" : true,
-      "in_stock" : true,
       "search_text": "%",
-      "specific_id" : null
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -89,7 +84,7 @@ function get_medicine(when_done? : (() => void) | undefined){
     console.log(json_response)
     if(json_response["request_success"]) {
       for (const p of json_response['list']){
-        list_of_medicine.value = list_of_medicine.value.concat({code : p[0], label : p[0]+' | '+p[1]+' | Q:'+p[2]})
+        list_of_treatments.value = list_of_treatments.value.concat({label : p[0], description : p[1]})
       }
     }
     else{
@@ -104,7 +99,23 @@ function get_medicine(when_done? : (() => void) | undefined){
 
 function onsubmit(event: { preventDefault: () => void }){
   event.preventDefault()
-  edit_medicine(() => get_medicine())
+  edit_treatment(() => get_treatments())
+}
+
+function form_change(){
+  alertText.value = ""
+  if(form_type.value < 1){
+    treatment.value = {label : "", description : ""}
+  } else {
+    get_treatments()
+  }
+}
+
+function change_treatment(){
+  if(form_type.value > 0 && treatment.value.label !== old_treatment_name){
+    description.value = treatment.value.description
+    old_treatment_name = treatment.value.label
+  }
 }
 </script>
 
@@ -113,42 +124,32 @@ function onsubmit(event: { preventDefault: () => void }){
     <TopRightLogo/>
 
     <h1 class="not-staff" v-if="!acc_store.signed_in">Please sign in.</h1>
-    <h1 class="not-staff" v-else-if="acc_store.account_type !== 3">Only Pharmacists are allowed to do this.</h1>
+    <h1 class="not-staff" v-else-if="acc_store.account_type < 1 || acc_store.account_type > 2">
+      Only doctors and specialists are allowed to do this.
+    </h1>
     <form role="form" v-on:submit="onsubmit" v-else>
       <div class="formselector">
-        <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="get_medicine()" checked/>
+        <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change" checked/>
         <label for="add">Add </label>
         <p></p>
-        <input id="restock" name="formtype" type="radio" :value=1 v-model="form_type" v-on:change="get_medicine()"/>
-        <label for="restock">Restock </label>
+        <input id="edit" name="formtype" type="radio" :value=1 v-model="form_type" v-on:change="form_change"/>
+        <label for="edit">Edit </label>
         <p></p>
-        <input id="dispense" name="formtype" type="radio" :value=2 v-model="form_type" v-on:change="get_medicine()"/>
-        <label for="dispense">Dispense </label>
-        <p></p>
-        <input id="delete" name="formtype" type="radio" :value=3 v-model="form_type" v-on:change="get_medicine()"/>
+        <input id="delete" name="formtype" type="radio" :value=2 v-model="form_type" v-on:change="form_change"/>
         <label for="delete">Delete </label>
       </div>
-      <div class="namefield" v-if="form_type < 1">
-        <label for="name">ID:</label>
-        <input id="name" type="text" placeholder="Name" v-model="id" />
-
-        <label for="name">Name:</label>
-        <input id="name" type="text" placeholder="Name" v-model="name" />
-      </div>
-      <div class="namefield" v-else>
-        <label for="name">Medicine:</label>
-        <v-select class="selector" id="name" :options="list_of_medicine" v-model="medicine"></v-select>
-      </div>
-      <label v-if="form_type < 3" for="c_no">Quantity:</label>
-      <input v-if="form_type < 3" id="c_no" type="number" :min=0 placeholder="Quantity" v-model="quantity" />
+      <label for="name">Name:</label>
+      <input v-if="form_type == 0" id="name" type="text" placeholder="Name" v-model="treatment.label" />
+      <v-select v-else class="selector" id="name" :options="list_of_treatments" v-model="treatment" :option:selected="change_treatment()"></v-select>
+      <label v-if="form_type < 2" for="description">Description:</label>
+      <textarea v-if="form_type < 2" class="description" v-model="description" rows="5"></textarea>
       <p v-if="alertText !== ''">
         {{ alertText }}
       </p>
       <div v-else class="p"></div>
-      <button v-if="form_type === 3" class="btn" type="submit">Delete Medicine</button>
-      <button v-else-if="form_type === 2" class="btn" type="submit">Dispense Medicine</button>
-      <button v-else-if="form_type === 1" class="btn" type="submit">Restock Medicine</button>
-      <button v-else-if="form_type === 0" class="btn" type="submit">Add New Medication</button>
+      <button v-if="form_type === 2" class="btn" type="submit">Delete Treatment</button>
+      <button v-else-if="form_type === 1" class="btn" type="submit">Edit Treatment</button>
+      <button v-else-if="form_type === 0" class="btn" type="submit">New Treatment</button>
       <button v-else class="btn" type="submit" disabled>Something's Wrong</button>
     </form>
 

@@ -2,12 +2,13 @@
 import '@/assets/main.css'
 import { useAccountStore } from '@/stores/account'
 import { onBeforeMount, ref } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
 const route = useRoute()
+const router = useRouter()
 const query_id = typeof route.query.id === 'undefined' ? '' : (route.query.id as string)
 
 const name = ref(''),
@@ -159,6 +160,14 @@ function toggleAllergy(){
           v-on:click="toggleAllergy"
         >
           Remove allergy
+        </p>
+        <p
+          v-if="acc_store.signed_in && acc_store.account_type === 3"
+          class="favourite-button"
+          name="favourite-button"
+          v-on:click="router.push({name : 'edit_medicine'})"
+        >
+          Dispense/Restock
         </p>
       </div>
     </div>

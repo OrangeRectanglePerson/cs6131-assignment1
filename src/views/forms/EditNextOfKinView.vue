@@ -160,10 +160,10 @@ function form_change(){
   placeholder_relation.value = "Relationship"
   placeholder_contact.value = "Contact Number"
   if(form_type.value === 2){
-    get_patients(get_nok())
+    get_patients(() => get_nok())
   }
   else if (form_type.value === 1){
-    get_patients(get_nok())
+    get_patients(() => get_nok())
   } else {
     get_patients()
   }

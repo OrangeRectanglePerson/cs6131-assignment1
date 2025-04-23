@@ -49,7 +49,7 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
-        v-if="acc_store.userid[0] == 'S'"
+        v-if="acc_store.userid[0] === 'S'"
         :image="_BASE_URL + 'icons/user-pen.svg'"
         title="Create an account"
         to="/create_account"
@@ -58,10 +58,21 @@ const _BASE_URL = import.meta.env.BASE_URL
         class="AccountCard"
       />
       <AccountCard
+        v-if="acc_store.account_type === 3"
         :image="_BASE_URL + 'icons/pen.svg'"
         title="Edit Medication Database"
         to="/edit_medicine"
         description="Add, Dispense, Restock, or Delete Medicine from the database."
+        footnote="Staff Command"
+        class="AccountCard"
+      />
+
+      <AccountCard
+        v-if="acc_store.account_type === 1 || acc_store.account_type === 2"
+        :image="_BASE_URL + 'icons/pen.svg'"
+        title="Edit Treatment Database"
+        to="/edit_treatment"
+        description="Add, Edit, or Delete Treatment from the database."
         footnote="Staff Command"
         class="AccountCard"
       />

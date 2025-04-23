@@ -120,6 +120,11 @@ const router = createRouter({
       name: 'treatment',
       component: () => import('@/views/details_pages/TreatmentDetailsView.vue'),
     },
+    {
+      path: '/edit_treatment',
+      name: 'edit_treatment',
+      component: () => import('@/views/forms/EditTreatmentView.vue'),
+    },
   ],
 })
 
