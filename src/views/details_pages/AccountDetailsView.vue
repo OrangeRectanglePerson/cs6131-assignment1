@@ -8,6 +8,7 @@ import { useAccountStore } from '@/stores/account'
 import DiagnosesSearchResult from '@/components/DiagnosesSearchResult.vue'
 import NextOfKinCard from '@/components/NextOfKinCard.vue'
 import PrescriptionSearchResult from '@/components/PrescriptionSearchResult.vue'
+import AppointmentSearchResult from '@/components/AppointmentSearchResult.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
@@ -30,7 +31,10 @@ place_of_residence = ref(''),
 allergies = ref([]),
 diagnoses = ref([]),
 prescriptions = ref([]),
-nok_list = ref([])
+nok_list = ref([]),
+appointments_list = ref([]),
+future_appointments = ref(false),
+past_appointments = ref(false)
 
 onBeforeMount(() => {
   if(user_id === ""){
@@ -83,11 +87,11 @@ onBeforeMount(() => {
           }
         }
         if(user_id[0] === 'P'){
-          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin())))
+          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin(()=> get_appointments()))))
         }
         else if(user_id[0] === 'S'){
           if(acc_store.account_type === 1){
-            getDiagnoses(() => getPrescriptions())
+            getDiagnoses(() => getPrescriptions(()=> get_appointments()))
           }
           else if(acc_store.account_type === 2){
             // specialist
@@ -154,16 +158,16 @@ onBeforeMount(() => {
           }
         }
         if(user_id[0] === 'P'){
-          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin())))
+          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin(()=> get_appointments()))))
         }
         else if(user_id[0] === 'S'){
-          if(acc_store.account_type === 1){
-            getDiagnoses(() => getPrescriptions())
+          if(acc_type.value === 1){
+            getDiagnoses(() => getPrescriptions(()=> get_appointments()))
           }
-          else if(acc_store.account_type === 2){
+          else if(acc_type.value === 2){
             // specialist
           }
-          else if(acc_store.account_type === 3){
+          else if(acc_type.value === 3){
             getPrescriptions()
           }
         }
@@ -296,6 +300,66 @@ function getNextOfKin(when_done? : () => void | undefined){
     const json_response = JSON.parse(json_text)
     if(json_response["request_success"]) {
       nok_list.value = json_response["list"]
+    }
+    if (when_done !== undefined){
+      when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
+
+function get_appointments(when_done? : () => void | undefined){
+  let patient_id = ""
+  let doctor_id = ""
+  if(acc_store.account_type === 0){
+    patient_id = acc_store.userid
+    if(acc_type.value === 1){
+      doctor_id = user_id
+    }
+    else if (acc_type.value === 0){}
+    else {
+      if(when_done !== undefined) when_done()
+    }
+  } else {
+    if(acc_type.value === 1){
+      doctor_id = user_id
+    }
+    else if (acc_type.value === 0){
+      patient_id = user_id
+    }
+    else {
+      if(when_done !== undefined) when_done()
+    }
+  }
+  fetch(`${BACKEND_URL}/get_appointments`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : patient_id,
+      "doctor_id" : doctor_id,
+      "future_only" : future_appointments.value,
+      "past_only": past_appointments.value
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    appointments_list.value = []
+    if(json_response["request_success"]) {
+      console.log(json_response["list"])
+      for (const i of json_response["list"]){
+        appointments_list.value = appointments_list.value.concat([[i[0], i[7], i[6], i[4], i[1], []]])
+        console.log(appointments_list.value)
+      }
     }
     if (when_done !== undefined){
       when_done()
@@ -482,6 +546,46 @@ function getNextOfKin(when_done? : () => void | undefined){
         No Diagnoses
       </h5>
 
+      <h4 v-if="(acc_type === 1 || acc_type === 0) && acc_store.signed_in" style="margin: 0;">Appointments:</h4>
+      <div class="radiobar" v-if="(acc_type === 1 || acc_type === 0) && acc_store.signed_in">
+        <input
+          type="checkbox"
+          id="in_stock"
+          name="stock_filter"
+          aria-label="stocked_filter"
+          v-model="future_appointments"
+          v-on:change="get_appointments()"
+        />
+        <label for="stocked_filter">Future</label>
+        <p style="margin:0">|</p>
+        <input
+          type="checkbox"
+          id="no_stock"
+          name="stock_filter"
+          aria-label="stocked_filter"
+          v-model="past_appointments"
+          v-on:change="get_appointments()"
+        />
+        <label for="no_stock">Past</label>
+      </div>
+      <div
+        class="allergy-results-list-container"
+        v-if="(acc_type === 1 || acc_type === 0) && diagnoses.length > 0 && acc_store.signed_in"
+        ref="allergy_results_list_container"
+      >
+        <li v-for="a in appointments_list" :key="a[0]">
+          <AppointmentSearchResult
+            :consultation_id = "a[0]"
+            :doctor_name="a[1]"
+            :patient_name="a[2]"
+            :facility_name="a[3]"
+            :date_time="a[4]"
+            class="allergy-results"
+          />
+        </li>
+      </div>
+      <h5 v-else-if="(acc_type === 1 || acc_type === 0) && acc_store.signed_in" class="allergy-results-list-container">No Appointments</h5>
+
     </div>
   </main>
 </template>
@@ -589,6 +693,13 @@ function getNextOfKin(when_done? : () => void | undefined){
 .allergy-results {
   color: white;
   grid-row-gap: 1.2em;
+}
+
+.radiobar{
+  display: flex;
+  flex-direction: row;
+  gap: 1em;
+  justify-content: start;
 }
 
 @keyframes brandFadeIn {
