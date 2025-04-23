@@ -106,23 +106,23 @@ function dispense(){
       <div class="details">
         <p class="address">
           <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Doctor: <u>{{ doctor_name }}</u>
+          Doctor: <u>{{ doctor_name }}</u> (S{{ doctor_id }})
         </p>
         <p class="website">
           <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Patient: <u>{{ patient_name }}</u>
+          Patient: <u>{{ patient_name }}</u> (P{{ patient_id }})
         </p>
         <p class="website">
           <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
           Prescription Date: <u>{{ prescription_date }}</u>
         </p>
         <p class="website">
-          <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Pharmacist: <u>{{ pharmacist_name }}</u>
-        </p>
-        <p class="website">
           <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
           Dispensation Date: <u>{{ dispensation_date }}</u>
+        </p>
+        <p class="website">
+          <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
+          Pharmacist: <u>{{ pharmacist_name }}</u> (S{{ pharmacist_id }})
         </p>
         <p
           v-if="acc_store.signed_in && acc_store.account_type === 3 && pharmacist_id === ''"

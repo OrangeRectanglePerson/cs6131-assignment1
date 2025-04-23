@@ -130,6 +130,11 @@ const router = createRouter({
       name: 'edit_treatment',
       component: () => import('@/views/forms/EditTreatmentView.vue'),
     },
+    {
+      path: '/patient_search',
+      name: 'patient_search',
+      component: () => import('@/views/search_pages/PatientSearch.vue'),
+    },
   ],
 })
 

@@ -85,6 +85,10 @@ function search(event: { preventDefault: () => void }) {
               <RouterLink to="/doctor_search">Doctors</RouterLink>
               <p v-show="route.name === 'doctor_search'">you are here</p>
             </li>
+            <li v-if="acc_store.signed_in && acc_store.account_type > 0" class="nav-item">
+              <RouterLink to="/patient_search">Patients</RouterLink>
+              <p v-show="route.name === 'patient_search'">you are here</p>
+            </li>
             <li class="nav-item">
               <RouterLink to="/facility_search">Facilities</RouterLink>
               <p v-show="route.name === 'facility_search'">you are here</p>

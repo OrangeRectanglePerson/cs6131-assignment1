@@ -1,34 +1,39 @@
 <script setup lang="ts">
 defineProps({
-  date: String,
-  doctor_name: String,
-  doctor_id: String,
-  patient_name: String,
+  name: String,
+  nric: String,
+  dob: String,
+  phone_number: String,
   patient_id: String,
-  disease_name: String,
-  disease_id: String
 })
 </script>
 
 <template>
   <div class="search-result-container">
-
+    <img
+      src="https://upload.wikimedia.org/wikipedia/commons/e/e1/Resusci_Anne_-_CPR_dummy.jpg"
+      class="search_result_image"
+    />
     <div style="display: grid; width: 100%">
-      <RouterLink class="name" :to="'/diagnoses?doc='+doctor_id+'&pat='+patient_id+'&dis='+disease_id">{{
-        date
+      <RouterLink class="name" :to="'/account_details?uid=P' + patient_id">{{
+        name
       }}</RouterLink>
       <div class="details">
         <p class="address">
           <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Doctor: {{ doctor_name }} (S{{ doctor_id }})
+          DOB: {{ dob }}
+        </p>
+        <p class="phone_number">
+          <img src="./icons/telephone_icon.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
+          {{ phone_number }}
         </p>
         <p class="website">
           <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Patient: {{ patient_name }} (P{{ patient_id }})
+          Patient ID: S{{ patient_id }}
         </p>
-        <p class="website">
-          <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          Diagnoses: {{ disease_name }}
+        <p class="address">
+          <img src="./icons/nextdoor.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
+          NRIC: {{ nric }}
         </p>
       </div>
     </div>
@@ -44,7 +49,6 @@ defineProps({
   border-image: linear-gradient(to right, transparent 0%, white 10% 90%, transparent 100%) 1;
   grid-row-gap: 1em;
   padding: 1em 0;
-  padding-inline-start: 2em;
 }
 
 .name {
@@ -83,8 +87,8 @@ defineProps({
 }
 
 .search_result_image {
-  max-height: 6em;
-  max-width: 9em;
+  max-height: 10em;
+  max-width: 15em;
   left: 0;
   margin: 0 2em 0 2em;
   grid-column: 2;
