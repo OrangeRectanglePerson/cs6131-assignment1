@@ -7,6 +7,7 @@ import TopRightLogo from '@/components/TopRightLogo.vue'
 import { useAccountStore } from '@/stores/account'
 import DiagnosesSearchResult from '@/components/DiagnosesSearchResult.vue'
 import NextOfKinCard from '@/components/NextOfKinCard.vue'
+import PrescriptionSearchResult from '@/components/PrescriptionSearchResult.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
@@ -28,6 +29,7 @@ dob = ref(''),
 place_of_residence = ref(''),
 allergies = ref([]),
 diagnoses = ref([]),
+prescriptions = ref([]),
 nok_list = ref([])
 
 onBeforeMount(() => {
@@ -81,13 +83,18 @@ onBeforeMount(() => {
           }
         }
         if(user_id[0] === 'P'){
-          // get allergies
-          // then diagnoses
-          getAllergies(() => getDiagnoses(() => getNextOfKin()))
+          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin())))
         }
-        if(user_id[0] === 'S'){
-          //get diagnoses
-          getDiagnoses()
+        else if(user_id[0] === 'S'){
+          if(acc_store.account_type === 1){
+            getDiagnoses(() => getPrescriptions())
+          }
+          else if(acc_store.account_type === 2){
+            // specialist
+          }
+          else if(acc_store.account_type === 3){
+            getPrescriptions()
+          }
         }
       }
       else{
@@ -147,13 +154,18 @@ onBeforeMount(() => {
           }
         }
         if(user_id[0] === 'P'){
-          // get allergies
-          // then diagnoses
-          getAllergies(() => getDiagnoses(() => getNextOfKin()))
+          getAllergies(() => getDiagnoses(() => getPrescriptions(() => getNextOfKin())))
         }
-        if(user_id[0] === 'S' && acc_store.account_type > 0){
-          //get diagnoses
-          getDiagnoses()
+        else if(user_id[0] === 'S'){
+          if(acc_store.account_type === 1){
+            getDiagnoses(() => getPrescriptions())
+          }
+          else if(acc_store.account_type === 2){
+            // specialist
+          }
+          else if(acc_store.account_type === 3){
+            getPrescriptions()
+          }
         }
       }
       else{
@@ -221,6 +233,39 @@ function getDiagnoses(when_done? : () => void | undefined){
     const json_response = JSON.parse(json_text)
     if(json_response["request_success"]) {
       diagnoses.value = json_response["list"]
+    }
+    if (when_done !== undefined){
+      when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
+
+
+function getPrescriptions(when_done? : () => void | undefined){
+  fetch(`${BACKEND_URL}/get_prescriptions`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : acc_type.value === 0 ? user_id : "",
+      "pharmacist_id" : acc_type.value === 3 ? user_id : "",
+      "doctor_id" : acc_type.value === 1 ? user_id : ""
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    if(json_response["request_success"]) {
+      prescriptions.value = json_response["list"]
     }
     if (when_done !== undefined){
       when_done()
@@ -384,6 +429,44 @@ function getNextOfKin(when_done? : () => void | undefined){
         </li>
       </div>
       <h5 v-else-if="acc_type === 1" class="allergy-results-list-container">No Diagnoses</h5>
+
+      <h4 v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3)">
+        Prescriptions:
+      </h4>
+      <div
+        class="allergy-results-list-container"
+        v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3) && prescriptions.length > 0"
+        ref="allergy_results_list_container"
+      >
+        <li v-for="d in prescriptions" :key="d">
+          <PrescriptionSearchResult
+            v-if = "d[3] !== 'None'"
+            :prescription_id="d[0]"
+            :prescription_date="d[1]"
+            :pharmacist_id="d[3]"
+            :patient_id="d[4]"
+            :doctor_id="d[5]"
+            :dispensation_date="d[6]"
+            :doctor_name="d[7]"
+            :patient_name="d[8]"
+            :pharmacist_name="d[9]"
+            class="allergy-results"
+          />
+          <PrescriptionSearchResult
+            v-else
+            :prescription_id="d[0]"
+            :prescription_date="d[1]"
+            :patient_id="d[4]"
+            :doctor_id="d[5]"
+            :doctor_name="d[7]"
+            :patient_name="d[8]"
+            class="allergy-results"
+          />
+        </li>
+      </div>
+      <h5 v-else-if="(acc_type === 0 || acc_type === 1 || acc_type === 3)" class="allergy-results-list-container">
+        No Diagnoses
+      </h5>
 
     </div>
   </main>
