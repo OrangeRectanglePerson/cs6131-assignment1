@@ -113,6 +113,10 @@ export const useAccountStore = defineStore('account', {
             localStorage.removeItem("userid")
             localStorage.removeItem("session_key")
             localStorage.removeItem("account_type")
+            this.userid = ""
+            this.username = ""
+            this.session_key = ""
+            this.account_type = -1
             if(json_response["logout_success"]) {
               return "success"
             }

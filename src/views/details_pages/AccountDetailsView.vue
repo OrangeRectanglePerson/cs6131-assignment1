@@ -33,7 +33,7 @@ prescriptions = ref([]),
 nok_list = ref([])
 
 onBeforeMount(() => {
-  if(acc_store.signed_in && user_id === ""){
+  if(user_id === ""){
     user_id = acc_store.userid
   }
   if (user_id === acc_store.userid){
