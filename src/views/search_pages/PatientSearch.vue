@@ -104,7 +104,7 @@ function new_search() {
         </p>
         <p v-else-if="search_query === ''" class="search-querier">
           Type something to search!
-          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 20 results max.)
+          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 999 results max.)
         </p>
         <p v-else class="search-querier">
           Search Results for: <i>"{{ search_query }}"</i>

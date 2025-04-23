@@ -66,6 +66,16 @@ const router = createRouter({
       component: () => import('@/views/search_pages/DoctorSearch.vue'),
     },
     {
+      path: '/specialist_search',
+      name: 'specialist_search',
+      component: () => import('@/views/search_pages/SpecialistSearch.vue'),
+    },
+    {
+      path: '/pharmacist_search',
+      name: 'pharmacist_search',
+      component: () => import('@/views/search_pages/PharmacistSearch.vue'),
+    },
+    {
       path: '/medicine_search',
       name: 'medicine_search',
       component: () => import('@/views/search_pages/MedicineSearch.vue'),

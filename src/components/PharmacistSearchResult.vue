@@ -4,14 +4,13 @@ defineProps({
   department: String,
   phone_number: String,
   staff_id: String,
-  specialisation : String
 })
 </script>
 
 <template>
   <div class="search-result-container">
     <img
-      src="https://upload.wikimedia.org/wikipedia/en/8/80/Jameswilsonpromoseason6.jpg"
+      src="https://upload.wikimedia.org/wikipedia/en/0/03/Kal-penn-house.jpg"
       class="search_result_image"
     />
     <div style="display: grid; width: 100%">
@@ -30,10 +29,6 @@ defineProps({
         <p class="phone_number">
           <img src="./icons/telephone_icon.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
           {{ phone_number }}
-        </p>
-        <p class="specialisation">
-          <img src="./icons/square_book_icon.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          {{ specialisation }}
         </p>
       </div>
     </div>

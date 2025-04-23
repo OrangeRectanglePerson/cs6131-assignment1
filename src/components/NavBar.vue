@@ -78,6 +78,14 @@ function sign_out() {
               <RouterLink to="/doctor_search">Doctors</RouterLink>
               <p v-show="route.name === 'doctor_search'">you are here</p>
             </li>
+            <li class="nav-item">
+              <RouterLink to="/specialist_search">Specialists</RouterLink>
+              <p v-show="route.name === 'specialist_search'">you are here</p>
+            </li>
+            <li class="nav-item">
+              <RouterLink to="/pharmacist_search">Pharmacists</RouterLink>
+              <p v-show="route.name === 'pharmacist_search'">you are here</p>
+            </li>
             <li v-if="acc_store.signed_in && acc_store.account_type > 0" class="nav-item">
               <RouterLink to="/patient_search">Patients</RouterLink>
               <p v-show="route.name === 'patient_search'">you are here</p>

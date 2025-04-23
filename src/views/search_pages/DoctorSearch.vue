@@ -41,7 +41,7 @@ function new_search() {
     method: "POST",
     body: JSON.stringify({
       "start_from" : 0,
-      "num_results" : 20,
+      "num_results" : 999,
       "search_text": search_query.value
     }),
     headers: {
@@ -101,7 +101,7 @@ function new_search() {
       <Transition>
         <p v-if="search_query === ''" class="search-querier">
           Type something to search!
-          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 20 results max.)
+          <br>(For now, it just searches by name or department. Type '%' to see all doctors. Limited to 999 results max.)
         </p>
         <p v-else class="search-querier">
           Search Results for: <i>"{{ search_query }}"</i>

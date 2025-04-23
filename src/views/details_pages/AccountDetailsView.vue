@@ -311,7 +311,7 @@ function getNextOfKin(when_done? : () => void | undefined){
 <template>
   <main class="business-screen">
     <TopRightLogo/>
-    <p v-if="!acc_store.signed_in" class="name-field">
+    <p v-if="!acc_store.signed_in && user_id[0] === 'P'" class="name-field">
       Sign in to see account details! Please return to the <RouterLink to="/">Home Page</RouterLink>
     </p>
     <p v-else-if="acc_store.userid !== user_id && acc_store.account_type < 1 && user_id[0] === 'P'" class="name-field">
@@ -371,14 +371,28 @@ function getNextOfKin(when_done? : () => void | undefined){
             src="@/components/icons/square_book_icon.svg"
             style="height: 1em; width: 1em; margin: 0 0.5em"
           />
-          {{ specialises_in }}
+          Specialist in {{ specialises_in }}
+        </p>
+        <p v-if="acc_type == 1 || acc_type == 2" class="specialty">
+          <img
+            src="@/components/icons/square_book_icon.svg"
+            style="height: 1em; width: 1em; margin: 0 0.5em"
+          />
+          {{acc_type == 1 ? "Medical" : "Specialist"}} Qualification: {{ qualification_authority }}
+        </p>
+        <p v-if="acc_type == 1 || acc_type == 2" class="specialty">
+          <img
+            src="@/components/icons/square_book_icon.svg"
+            style="height: 1em; width: 1em; margin: 0 0.5em"
+          />
+          Qualification Expires: {{ qualification_expiry_date }}
         </p>
       </div>
 
-      <h4 v-if="user_id[0]==='P'">Allergies:</h4>
+      <h4 v-if="user_id[0]==='P' && acc_store.signed_in">Allergies:</h4>
       <div
         class="allergy-results-list-container"
-        v-if="user_id[0]==='P' && allergies.length > 0"
+        v-if="user_id[0]==='P' && allergies.length > 0 && acc_store.signed_in"
         ref="allergy_results_list_container"
       >
         <li v-for="allergy in allergies" :key="allergy">
@@ -390,7 +404,7 @@ function getNextOfKin(when_done? : () => void | undefined){
           />
         </li>
       </div>
-      <h5 v-else-if="user_id[0]==='P'" class="allergy-results-list-container">No Allergies</h5>
+      <h5 v-else-if="user_id[0]==='P' && acc_store.signed_in" class="allergy-results-list-container">No Allergies</h5>
 
       <h4 v-if="user_id[0]==='P'">Next of Kin:</h4>
       <div
@@ -409,10 +423,10 @@ function getNextOfKin(when_done? : () => void | undefined){
       </div>
       <h5 v-else-if="user_id[0]==='P'" class="allergy-results-list-container">No Next Of Kin</h5>
 
-      <h4 v-if="acc_type === 1">Diagnoses:</h4>
+      <h4 v-if="acc_type === 1 && acc_store.signed_in">Diagnoses:</h4>
       <div
         class="allergy-results-list-container"
-        v-if="acc_type === 1 && diagnoses.length > 0"
+        v-if="acc_type === 1 && diagnoses.length > 0 && acc_store.signed_in"
         ref="allergy_results_list_container"
       >
         <li v-for="d in diagnoses" :key="d">
@@ -428,14 +442,14 @@ function getNextOfKin(when_done? : () => void | undefined){
           />
         </li>
       </div>
-      <h5 v-else-if="acc_type === 1" class="allergy-results-list-container">No Diagnoses</h5>
+      <h5 v-else-if="acc_type === 1 && acc_store.signed_in" class="allergy-results-list-container">No Diagnoses</h5>
 
-      <h4 v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3)">
+      <h4 v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3) && acc_store.signed_in">
         Prescriptions:
       </h4>
       <div
         class="allergy-results-list-container"
-        v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3) && prescriptions.length > 0"
+        v-if="(acc_type === 0 || acc_type === 1 || acc_type === 3) && prescriptions.length > 0 && acc_store.signed_in"
         ref="allergy_results_list_container"
       >
         <li v-for="d in prescriptions" :key="d">
@@ -464,7 +478,7 @@ function getNextOfKin(when_done? : () => void | undefined){
           />
         </li>
       </div>
-      <h5 v-else-if="(acc_type === 0 || acc_type === 1 || acc_type === 3)" class="allergy-results-list-container">
+      <h5 v-else-if="(acc_type === 0 || acc_type === 1 || acc_type === 3) && acc_store.signed_in" class="allergy-results-list-container">
         No Diagnoses
       </h5>
 
