@@ -6,17 +6,17 @@ const props = defineProps({
   prescription_date: String,
   doctor_name: String,
   doctor_id: String,
-  dispensation_date: {
+  dispensation_date_prop: {
     type : String,
     default : "Not Yet Dispensed"
   },
-  pharmacist_name: {
+  pharmacist_name_prop: {
     type : String,
     default : "Not Yet Dispensed"
   },
-  pharmacist_id: {
+  pharmacist_id_prop: {
     type : String,
-    default : "Not Yet Dispensed"
+    default : ""
   },
   patient_name: String,
   patient_id: String,
@@ -26,6 +26,10 @@ const props = defineProps({
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const acc_store = useAccountStore()
 const medicine_list = ref([])
+
+const dispensation_date = ref(props.dispensation_date_prop)
+const pharmacist_name = ref(props.pharmacist_name_prop)
+const pharmacist_id = ref(props.pharmacist_id_prop)
 
 onMounted(() => {
   getMedicine()
@@ -54,6 +58,35 @@ function getMedicine(when_done? : (() => void)|undefined){
     }
     if (when_done !== undefined){
       when_done()
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
+
+function dispense(){
+  fetch(`${BACKEND_URL}/dispense_prescription`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "prescription_id" : props.prescription_id,
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    if(json_response["request_success"]) {
+      pharmacist_id.value = json_response["list"][0][0]
+      dispensation_date.value = json_response["list"][0][1]
+      pharmacist_name.value = json_response["list"][0][2]
     }
   })
   .catch(error => {
@@ -90,6 +123,14 @@ function getMedicine(when_done? : (() => void)|undefined){
         <p class="website">
           <img src="./icons/globe.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
           Dispensation Date: <u>{{ dispensation_date }}</u>
+        </p>
+        <p
+          v-if="acc_store.signed_in && acc_store.account_type === 3 && pharmacist_id === ''"
+          class="favourite-button"
+          name="favourite-button"
+          v-on:click="dispense"
+        >
+          Dispense
         </p>
       </div>
       <div class="medicine">
@@ -147,6 +188,24 @@ function getMedicine(when_done? : (() => void)|undefined){
   text-align: start;
   margin-top: auto;
   margin-bottom: auto;
+}
+
+.favourite-button {
+  display: flex;
+  margin-top: .5em !important;
+  padding: 0.25em 1em;
+  flex-direction: column;
+  background: rgb(var(--color-contrast-dark));
+  border-radius: 0.5em;
+  font-size: 1em;
+  text-decoration: underline;
+  width: fit-content;
+  transition: all 0.3s;
+  text-underline-offset: 0.1em;
+}
+.favourite-button:hover {
+  filter: brightness(120%);
+  text-underline-offset: 0.25em;
 }
 
 .search_result_image {

@@ -443,13 +443,13 @@ function getNextOfKin(when_done? : () => void | undefined){
             v-if = "d[3] !== 'None'"
             :prescription_id="d[0]"
             :prescription_date="d[1]"
-            :pharmacist_id="d[3]"
+            :pharmacist_id_prop="d[3]"
             :patient_id="d[4]"
             :doctor_id="d[5]"
-            :dispensation_date="d[6]"
+            :dispensation_date_prop="d[6]"
             :doctor_name="d[7]"
             :patient_name="d[8]"
-            :pharmacist_name="d[9]"
+            :pharmacist_name_prop="d[9]"
             class="allergy-results"
           />
           <PrescriptionSearchResult
