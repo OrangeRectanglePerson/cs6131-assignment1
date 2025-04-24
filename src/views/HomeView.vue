@@ -16,7 +16,7 @@ defineProps({
 })
 
 // composition: appointment_id, doctor_name, patient_name, facility_name, date, [treatment_name, non_consulting_specialist]
-const appointments_list = ref([[]])
+const appointments_list = ref()
 
 onMounted(() => {
   get_appointments()
@@ -78,7 +78,7 @@ function get_appointments(when_done? : () => void | undefined){
     <p v-else-if="force_name !== undefined">Welcome, {{ force_name }} (Forced Welcome. You are not signed in.)</p>
     <p v-else>To force a welcome message to appear, use route <span style="font-family: monospace;">/welcome/&lt;name&gt;</span></p>
 
-    <p v-if="(acc_store.account_type===0 || acc_store.account_type===1) && appointments_list.length > 0 && acc_store.signed_in">
+    <p v-if="(acc_store.account_type===0 || acc_store.account_type===1) && acc_store.signed_in">
       Future Appointments:
     </p>
       <div
@@ -97,7 +97,11 @@ function get_appointments(when_done? : () => void | undefined){
           />
         </li>
       </div>
-      <h5 v-else-if="(acc_store.account_type===0 || acc_store.account_type===1) && acc_store.signed_in" class="appointment-list-container">No Appointments</h5>
+      <h5
+      class="appointment-list-container"
+      v-else-if="(acc_store.account_type===0 || acc_store.account_type===1) && acc_store.signed_in">
+        No Upcoming Appointments
+      </h5>
   </main>
 </template>
 

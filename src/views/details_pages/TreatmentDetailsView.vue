@@ -4,6 +4,7 @@ import { onBeforeMount, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
 import SpecialistSearchResult from '@/components/SpecialistSearchResult.vue'
+import FacilitySearchResult from '@/components/FacilitySearchResult.vue'
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const route = useRoute()
@@ -11,7 +12,8 @@ const query_id = typeof route.query.id === 'undefined' ? '' : (route.query.id as
 
 const name = ref(''),
 description = ref(''),
-specialists_list = ref([])
+specialists_list = ref([]),
+facility_list = ref()
 
 onBeforeMount(() => {
   fetch(`${BACKEND_URL}/get_treatments`, {
@@ -61,6 +63,7 @@ onBeforeMount(() => {
           if(json_response["request_success"]) {
             specialists_list.value = json_response['list']
           }
+          get_departments()
         })
         .catch(error => {
             console.log(error)
@@ -72,6 +75,35 @@ onBeforeMount(() => {
       console.log(error)
   })
 })
+
+function get_departments(){
+  fetch(`${BACKEND_URL}/get_departments`, {
+    method: "POST",
+    headers: {
+            "Content-type": "application/json; charset=UTF-8"
+        },
+    body: JSON.stringify({
+      "start_from" : 0,
+      "num_results" : 999,
+      "search_text" : "%",
+      "treatment_name" : query_id
+    })
+  })
+  .then((response) => {
+    if(!response.ok) return Promise.reject(response)
+    else return response.text()
+  })
+  .then((json_text : string) => {
+    const json_response = JSON.parse(json_text)
+    console.log(json_response)
+    if(json_response["request_success"]) {
+      facility_list.value = json_response['list']
+    }
+  })
+  .catch(error => {
+      console.log(error)
+  })
+}
 
 </script>
 
@@ -99,6 +131,26 @@ onBeforeMount(() => {
           {{ description }}
         </p>
       </div>
+
+      <h4 v-if="facility_list.length > 0">Facilities:</h4>
+      <div
+        class="treatments-list-container"
+        v-if="facility_list.length > 0"
+        ref="treatments_list_container"
+      >
+        <li v-for="item in facility_list" :key="item">
+          <FacilitySearchResult
+            :name="item[0]"
+            :contact_number="item[5]"
+            :street_name="item[1]"
+            :building_num="item[2]"
+            :floor_num="item[3]"
+            :unit_num="item[4]"
+            class="treatments-results"
+          />
+        </li>
+      </div>
+      <h5 v-else>Sorry, there are no facilities offering this treatment.</h5>
 
       <h4 v-if="specialists_list.length > 0">Specialists:</h4>
       <div
