@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import '@/assets/main.css'
-import { onBeforeMount, ref } from 'vue'
+import { onBeforeMount, ref, watch } from 'vue'
 import { useAccountStore } from '@/stores/account'
 //import { useRoute } from 'vue-router'
 import TopRightLogo from '@/components/TopRightLogo.vue'
@@ -74,7 +74,8 @@ function edit_appointment(event: { preventDefault: () => void }) {
       "facility_name": facility.value,
       "treatments": appointment_treatments.value,
       "appointment_id": appointment.value.code,
-      "mode" : mode
+      "mode" : mode,
+      "additional": "update"
     }),
     headers: {
       "Content-type": "application/json; charset=UTF-8"
@@ -304,8 +305,11 @@ function get_appointments(when_done? : () => void | undefined){
     appointments_list.value = []
     if(json_response["request_success"]) {
       console.log(json_response["list"])
-      for (const i of json_response["list"]){
-        appointments_list.value = appointments_list.value.concat({code:i[0], label:"Appt"+i[0]+' @ '+i[1]+' (Doc: S'+i[3]+')'})
+      for (const i of json_response["list"]) {
+        appointments_list.value = appointments_list.value.concat({
+          code: i[0],
+          label: "Appt" + i[0] + ' @ ' + i[1] + ' (Doc: S' + i[3] + ')'
+        })
         //console.log(appointments_list.value)
       }
     }
@@ -316,6 +320,58 @@ function get_appointments(when_done? : () => void | undefined){
   .catch(error => {
       console.log(error)
   })
+}
+
+watch(appointment, () => {
+  getSet()
+})
+
+function getSet(when_done? : () => void | undefined) {
+  fetch(`${BACKEND_URL}/get_appointments`, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json; charset=UTF-8"
+    },
+    body: JSON.stringify({
+      "requester_id" : acc_store.userid,
+      "session_key" : acc_store.session_key,
+      "patient_id" : acc_store.account_type===0 ? acc_store.userid : "",
+      "doctor_id" : "",
+      "future_only" : false,
+      "past_only": false,
+      "appointment_id": appointment.value.code
+    })
+  })
+    .then((response) => {
+      if(!response.ok) return Promise.reject(response)
+      else return response.text()
+    })
+    .then((json_text : string) => {
+      const json_response = JSON.parse(json_text)
+      console.log("response")
+      console.log(json_response)
+      if(json_response["request_success"]) {
+        if (form_type.value === 1 && appointment.value.code != "") {
+          appointment_treatments.value = {}
+          doctor_note.value = json_response["list"][2]
+          // need a for each
+          for (const i of json_response["list"][8]) {
+            console.log(i)
+            if (i[1] in appointment_treatments.value) {
+              appointment_treatments.value[i[1]] = appointment_treatments.value[i[1]].concat([i[2]])
+            } else {
+              appointment_treatments.value[i[1]] = [i[2]]
+            }
+          }
+        }
+      }
+      if (when_done !== undefined){
+        when_done()
+      }
+    })
+    .catch(error => {
+      console.log(error)
+    })
 }
 
 function add_treatment(){
@@ -357,7 +413,8 @@ function form_change(retain_alertText?:boolean|undefined){
   }
   else if (form_type.value === 1){
     //edit
-    //no editing implemented
+    get_appointments()
+    get_patients(() => get_doctors(()=>get_specialists(()=>get_treatments(()=>get_departments()))))
   } else {
     //add
     get_patients(() => get_doctors(()=>get_specialists(()=>get_treatments(()=>get_departments()))))
@@ -376,12 +433,15 @@ function form_change(retain_alertText?:boolean|undefined){
         <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change" checked/>
         <label for="add">Add </label>
         <p></p>
+        <input id="update" name="formtype" type="radio" :value=1 v-model="form_type" v-on:change="form_change"/>
+        <label for="update">Update </label>
+        <p></p>
         <input id="delete" name="formtype" type="radio" :value=2 v-model="form_type" v-on:change="form_change"/>
         <label for="delete">Delete </label>
       </div>
 
-      <label v-if="form_type===2" for="appointment">*Appointment:</label>
-      <v-select v-if="form_type===2" class="selector" id="appointment" :options="appointments_list" v-model="appointment"></v-select>
+      <label v-if="form_type > 0" for="appointment">*Appointment:</label>
+      <v-select v-if="form_type > 0" class="selector" id="appointment" :options="appointments_list" v-model="appointment" v-on:input="getSet"></v-select>
 
       <label v-if="form_type===0" for="patient">*Patient:</label>
       <v-select v-if="form_type===0" class="selector" id="patient" :options="list_of_patients" v-model="patient"></v-select>
@@ -435,7 +495,7 @@ function form_change(retain_alertText?:boolean|undefined){
       </p>
       <div v-else class="p"></div>
       <button v-if="form_type === 2" class="btn" type="submit">Delete Appointment</button>
-      <button v-else-if="form_type === 1" class="btn" type="submit" disabled>Edit Appointment</button>
+      <button v-else-if="form_type === 1" class="btn" type="submit">Edit Appointment</button>
       <button v-else-if="form_type === 0" class="btn" type="submit">Make Appointment</button>
       <button v-else class="btn" type="submit" disabled>Something's Wrong</button>
 
