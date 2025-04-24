@@ -430,13 +430,13 @@ function form_change(retain_alertText?:boolean|undefined){
     <form role="form" v-on:submit="edit_appointment" v-else>
       <h2>Appointment Form</h2>
       <div class="formselector">
-        <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change" checked/>
+        <input id="add" name="formtype" type="radio" :value=0 v-model="form_type" v-on:change="form_change()" checked/>
         <label for="add">Add </label>
         <p></p>
-        <input id="update" name="formtype" type="radio" :value=1 v-model="form_type" v-on:change="form_change"/>
+        <input id="update" name="formtype" type="radio" :value=1 v-model="form_type" v-on:change="form_change()"/>
         <label for="update">Update </label>
         <p></p>
-        <input id="delete" name="formtype" type="radio" :value=2 v-model="form_type" v-on:change="form_change"/>
+        <input id="delete" name="formtype" type="radio" :value=2 v-model="form_type" v-on:change="form_change()"/>
         <label for="delete">Delete </label>
       </div>
 

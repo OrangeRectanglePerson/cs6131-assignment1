@@ -33,7 +33,7 @@ defineProps({
         </p>
         <p class="specialisation">
           <img src="./icons/square_book_icon.svg" style="height: 1em; width: 1em; margin: 0 0.5em" />
-          {{ specialisation }}
+          Specialises in {{ specialisation }}
         </p>
       </div>
     </div>

@@ -32,7 +32,7 @@ allergies = ref([]),
 diagnoses = ref([]),
 prescriptions = ref([]),
 nok_list = ref([]),
-appointments_list = ref([]),
+appointments_list = ref(),
 future_appointments = ref(false),
 past_appointments = ref(false)
 
@@ -570,7 +570,7 @@ function get_appointments(when_done? : () => void | undefined){
       </div>
       <div
         class="allergy-results-list-container"
-        v-if="(acc_type === 1 || acc_type === 0) && diagnoses.length > 0 && acc_store.signed_in"
+        v-if="(acc_type === 1 || acc_type === 0) && appointments_list!==undefined && appointments_list.length > 0 && acc_store.signed_in"
         ref="allergy_results_list_container"
       >
         <li v-for="a in appointments_list" :key="a[0]">

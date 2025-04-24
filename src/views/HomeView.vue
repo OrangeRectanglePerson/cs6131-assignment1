@@ -83,7 +83,7 @@ function get_appointments(when_done? : () => void | undefined){
     </p>
       <div
         class="appointment-list-container"
-        v-if="(acc_store.account_type===0 || acc_store.account_type===1) && appointments_list.length > 0 && acc_store.signed_in"
+        v-if="(acc_store.account_type===0 || acc_store.account_type===1) && appointments_list!==undefined && appointments_list.length > 0 && acc_store.signed_in"
         ref="appointment-list-container"
       >
         <li v-for="a in appointments_list" :key="a[0]">
@@ -99,7 +99,7 @@ function get_appointments(when_done? : () => void | undefined){
       </div>
       <h5
       class="appointment-list-container"
-      v-else-if="(acc_store.account_type===0 || acc_store.account_type===1) && acc_store.signed_in">
+      v-else-if="(acc_store.account_type===0 || acc_store.account_type===1) && appointments_list!==undefined && acc_store.signed_in">
         No Upcoming Appointments
       </h5>
   </main>

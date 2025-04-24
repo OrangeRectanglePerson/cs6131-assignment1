@@ -13,18 +13,9 @@ const router = useRouter()
       System
     </p>
     <h1>About the website</h1>
-    <h2>Made by Lim Devon</h2>
+    <h2>Made by Lim Devon & Cheng Jia Jie Kieran</h2>
     <p>
-      Web design encompasses many different skills and disciplines in the production and maintenance
-      of websites. The different areas of web design include web graphic design; user interface
-      design (UI design); authoring, including standardised code and proprietary software; user
-      experience design (UX design); and search engine optimization. Often many individuals will
-      work in teams covering different aspects of the design process, although some designers will
-      cover them all.[1] The term "web design" is normally used to describe the design process
-      relating to the front-end (client side) design of a website including writing markup. Web
-      design partially overlaps web engineering in the broader scope of web development. Web
-      designers are expected to have an awareness of usability and be up to date with web
-      accessibility guidelines.
+      An electronic health record (EHR) is the systematized collection of electronically stored patient and population health information in a digital format.[1] These records can be shared across different health care settings. Records are shared through network-connected, enterprise-wide information systems or other information networks and exchanges. EHRs may include a range of data, including demographics, medical history, medication and allergies, immunization status, laboratory test results, radiology images, vital signs, personal statistics like age and weight, and billing information.[2]
     </p>
     <h2>Thanks to:</h2>
     <ul>
@@ -92,6 +83,7 @@ const router = useRouter()
         <a href="https://creativecommons.org/licenses/by/4.0/deed.en" rel="license">CC BY 4.0</a>
       </li>
       <li>Wikipedia for the paragraphs used as placeholder text</li>
+      <li>House, M.D. for the placeholder images</li>
     </ul>
   </div>
 </template>
