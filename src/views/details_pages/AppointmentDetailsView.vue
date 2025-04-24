@@ -64,7 +64,7 @@ onBeforeMount(() => {
   <main class="business-screen">
     <TopRightLogo/>
     <p v-if="query_id === ''" class="name-field">
-      No facility in URL query! Please select a facility from <RouterLink to="/facility_search">Facility Search Page</RouterLink>
+      No appointment in URL query!
     </p>
     <div v-else style="display: contents" class="everything-container">
       <p class="name-field">{{ title }}</p>

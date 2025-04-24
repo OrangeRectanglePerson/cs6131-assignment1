@@ -36,7 +36,7 @@ function dispense(){
   <main class="business-screen">
     <TopRightLogo/>
     <p v-if="query_id === ''" class="name-field">
-      No medicine in URL query! Please select a medication from <RouterLink to="/medicine_search">Medication Search Page</RouterLink>
+      No prescription in URL query! Please select a medication from <RouterLink to="/medicine_search">Medication Search Page</RouterLink>
     </p>
     <div v-else style="display: contents" class="everything-container">
       <p class="name-field">{{ name }}</p>

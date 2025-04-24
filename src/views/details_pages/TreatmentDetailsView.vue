@@ -111,7 +111,7 @@ function get_departments(){
   <main class="business-screen">
     <TopRightLogo/>
     <p v-if="query_id === ''" class="name-field">
-      No facility in URL query! Please select a facility from <RouterLink to="/facility_search">Facility Search Page</RouterLink>
+      No treatment in URL query! Please select a treatment from <RouterLink to="/treatment_search">Treatment Search Page</RouterLink>
     </p>
     <div v-else style="display: contents" class="everything-container">
       <p class="name-field">{{ name }}</p>
