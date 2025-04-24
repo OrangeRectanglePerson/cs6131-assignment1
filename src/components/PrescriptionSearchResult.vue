@@ -100,7 +100,7 @@ function dispense(){
   <div class="search-result-container">
 
     <div style="display: grid; width: 100%">
-      <RouterLink class="name" :to="'/prescription?&id='+prescription_id">
+      <RouterLink class="name" >
         Prescription #{{ prescription_id }}
       </RouterLink>
       <div class="details">

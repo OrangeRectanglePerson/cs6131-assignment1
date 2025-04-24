@@ -451,6 +451,27 @@ function get_appointments(when_done? : () => void | undefined){
           />
           Qualification Expires: {{ qualification_expiry_date }}
         </p>
+        <p v-if="acc_type === 0" class="department">
+          <img
+            src="@/components/icons/nextdoor.svg"
+            style="height: 1em; width: 1em; margin: 0 0.5em"
+          />
+          Residence: {{ place_of_residence }}
+        </p>
+        <p v-if="acc_type === 0" class="department">
+          <img
+            src="@/components/icons/globe.svg"
+            style="height: 1em; width: 1em; margin: 0 0.5em"
+          />
+          NRIC: {{ nric }}
+        </p>
+        <p v-if="acc_type === 0" class="department">
+          <img
+            src="@/components/icons/square_book_icon.svg"
+            style="height: 1em; width: 1em; margin: 0 0.5em"
+          />
+          DOB: {{ dob }}
+        </p>
       </div>
 
       <h4 v-if="user_id[0]==='P' && acc_store.signed_in">Allergies:</h4>

@@ -100,6 +100,7 @@ const _BASE_URL = import.meta.env.BASE_URL
         footnote="Staff Command"
         class="AccountCard"
       />
+      <!--
       <AccountCard
         :image="_BASE_URL + 'icons/user-pen.svg'"
         title="Edit Account Permissions"
@@ -123,6 +124,7 @@ const _BASE_URL = import.meta.env.BASE_URL
         footnote="Presidential Command"
         class="AccountCard"
       />
+      -->
     </div>
 
     <RouterLink v-else class="sign-in-reminder" to="/sign_in?redirect_after=account"
